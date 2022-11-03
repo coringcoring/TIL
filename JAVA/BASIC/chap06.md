@@ -116,6 +116,35 @@ public class Test{
 ``` 
 
 * 부모 클래스의 생성자 -> 자식 클래스의 생성자 순서. 
+* 오류가 발생하는 경우: 묵시적인 부모 클래스 생성자 호출을 사용하려면 부모 클래스에 기본 생성자(매개변수가 없는 생성자)가 반드시 정의되어 있어야함. 
 
+* Person 클래스와 Employee
+```java
+class Person{
+    String name;
+    public Person(){}
+    public Person(String theName){
+        this.name=theName; 
+    }
+}
+
+class Employee extends Person{
+    String id; 
+    public Employee(){ super(); }
+    public Employee(String name){ super(name); }
+    public Employee(String name,String id){
+        super(name);
+        this.id=id; 
+    }
+    @Override
+    public String toString(){
+        return "Employee [id= "+id+" name="+name+"]"; 
+    }
+}
+```
+
+## 메소드 오버라이딩 Method Overriding 
+* 자식 클래스가 부모 클래스의 메소드를 자신의 필요에 맞추어 재정의하는 것 
+* 메소드의 이름, 매개변수, 반환형은 동일해야함. 
 
 
