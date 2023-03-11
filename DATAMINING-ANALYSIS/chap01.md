@@ -48,7 +48,7 @@ clustering-based Approaches, reconstruction-based Approaches..
 
 ## KDD(Knowledge Discovery in Databases)의 과정 
 1. `Input Data`: 텍스트 파일, 엑셀 파일, 데이터베이스(테이블) 파일.. 
-2. `Data Preprocessing`: 시간이 오래 걸리는 파트. 
+2. `Data Preprocessing`: 시간이 오래 걸리는 파트. (먼저, 어떤 알고리즘을 사용할 것인지를 결정하고 그에 맞는 전처리를 해줘야.)
     * feature selection: ex. 데이터의 필드가 너무 많을 때, 필요없는 필드들을 `제거`. (필요한 필드들만 남기는 것.)
     * Dimensionality Reduction: 변환을 통해서 10개짜리 feature를 5개로 `압축`하는 것. 
     * Normalization: 데이터들을 비슷하게 만들어주는 것.
@@ -75,4 +75,53 @@ clustering-based Approaches, reconstruction-based Approaches..
 3. Heterogeneous data : 데이터 형태가 다양함. 
     * ex> text data, database table data, sequence data, graph data 
 4. Data distribution 
-    * 데이터를 어떻게 나누어서 각각의 컴퓨터에게 어떤 일을 시키는가. -> 분산기법 중요 
+    * 데이터를 어떻게 나누어서 각각의 컴퓨터에게 어떤 일을 시키는가. -> 분산기법 중요 (ex. Hadoop, Spark)
+
+---
+
+## 데이터마이닝과 관련된 분야 
+* 통계학  
+* AI (데이터 모델링 필요됨.)
+* 데이터베이스
+* 병렬/분산 컴퓨팅 
+* 최적화, 시각화 등.. 
+
+## 데이터 사이언스와 데이터 마이닝의 차이
+* +도메인의 지식까지 있는 것 -> 데이터 사이언스 
+    * ex> 금융 데이터에 대한 지식이 있는 금융 분야 데이터 사이언티스트.. (도메인의 지식 부분이 중요시되는 경향 있음.)
+
+## 데이터 마이닝에서 2가지 주요한 작업 
+1. 예측 작업 (Predictive tasks)
+    * 특정 필드의 value를 모를 때 그 value를 예측해내는 것. 
+    * classification, regression, anomaly detection(data anomaly/ non-anomaly 를 예측하는 문제로 볼 수도 있으므로.)
+2. Descriptive tasks(묘사 작업): 내가 받은 데이터를 간략히 요약,묘사해주는 것. (데이터 이해)
+    * clustering, association analysis -> not 예측! 
+    * + anomaly detection도 descriptive로 볼 수 있음. (데이터를 이해하는데 사용될 수 있음)
+
+## 데이터 마이닝의 4가지 핵심 작업 
+1. `Classification`
+    * 예측 모델 : y=f(x)
+        * y: the target variable(어디에 속하는가 category -> classification /어떤 숫자가 나와야하는가 -> regression)
+    * classification, regression 
+    * 주어진 데이터의 y=f(x)를 만족하는 f(x)를 찾는 문제. (문제 요구에 맞는 y=f(x)를 찾아야.)
+    * 목표: 모델 예측의 에러를 최소화시키는 것. (모델의 에러를 0으로 만들 수는 x-> 0이 되면 overfitting)
+    * ex> 식물 분류 예측 모델 : 꽃잎의 길이와 폭을 통해 어떤 종류인지 분류. 
+2. `Association Analysis` 
+    * frequent itemset(빈번히 등장하는 itemset) != association rule 
+3. `Cluster Analysis` 
+    * 밀접하게 관련된 그룹들을 찾아내는 것. 
+        * 똑같은 cluster에 속한 것들은 서로 비슷함.
+        * 서로 다른 cluster에 속한 것들은 서로 다름. 
+        * -> 이 2가지 목표가 동시에 달성되어야. 
+    * ex> customer segmentation, community detection 
+    * (1) 각 데이터를 벡터로 어떻게 표현할 것인가 , (2) 벡터간의 유사도를 어떻게 계산할 것인가  
+        -> 이 2가지를 결정해야함. (어떤 것을 선택해야함에 따라 clustering 결과가 달라짐.)
+            * ex> 단어를 나열하고, 각 단어에 번호를 붙여서 텍스트 데이터를 벡터로 표현 가능. -> cosine으로 벡터 간의 유사도를 계산. 
+4. `Anomaly Detection`
+* 대다수의 패턴과 다른 패턴을 가지고 있는 값 -> anomaly or outlier 
+* 중요한 것: 
+    * detection rate가 높아야함. (anomaly는 희귀하기 때문에.)
+    * false alarm rate가 낮아야함. 
+* anomaly는 희귀하기 때문에 classification과 별도로 분리하여 문제를 해결. (classification으로 잘못된 category로 분류해버릴 가능성이 있기 때문.)
+* ex> credit card fraud detection 
+    * `정상 데이터`만 모아서 모델링을 해야함. (비정상 데이터가 들어갈 경우 모델이 깨져버림) - 비정상 데이터: anomaly or outlier  
