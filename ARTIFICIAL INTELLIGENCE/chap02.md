@@ -42,11 +42,11 @@
 
 ## 기본적인 탐색 기법 
 * ppt 19 그림을 참고 
-* 맹목적인 탐색(Blind search method): 목표 노드에 대한 정보를 이용하지 않고 기계적인 순서로 노드를 확장하는 방법. 매우 소모적인 탐색.
+* `맹목적인 탐색(Blind search method)`: 목표 노드에 대한 정보를 이용하지 않고 기계적인 순서로 노드를 확장하는 방법. 매우 소모적인 탐색.
     * 깊이 우선 탐색 (DFS)
     * 너비 우선 탐색 (BFS)
     * 균일 비용 탐색 
-* 경험적인 탐색(heuristic search method): 목표 노드에 대한 경험적인(heuristic) 정보를 사용하는 방법. -> 효율적인 탐색이 가능! 
+* `경험적인 탐색(heuristic search method)`: 목표 노드에 대한 경험적인(heuristic) 정보를 사용하는 방법. -> 효율적인 탐색이 가능! 
     * 탐욕적인 탐색 (greedy)
     * A* 탐색 
 
@@ -58,3 +58,87 @@
     * b: 탐색 트리의 최대 분기 계수
     * d: 목표 노드의 깊이 depth 
     * m: 트리의 최대 깊이 
+
+---
+
+## DFS(깊이 우선 탐색; Depth-First Search)
+* 탐색 트리 상에서, 해가 존재할 가능성이 존재하는 한, 앞으로 계속 전진하여 탐색하는 방법 
+* ex>8-puzzle 
+    * 0이면 빈칸으로 간주. 빈칸이 움직인다고 봄. 
+    * 방문한 노드들: closed list에 저장 
+* 의사코드
+    ```python
+    function DFS(root)
+        open <- [root]
+        closed <- [] //빈 리스트
+        while open != [] do 
+            X <- open 리스트의 첫번째 요소 
+            if X == goal then return SUCCESS
+            else 
+                X의 자식 노드를 생성
+                X를 closed 리스트에 추가 
+                X의 자식 노드가 이미 open이나 closed에 있다면 버린다
+                남은 자식 노드들은 open의 처음에 추가한다 (스택처럼 사용)
+        return FAIL 
+    ``` 
+* ex> ppt 26 참고 
+
+## OPEN 리스트와 CLOSED 리스트
+* 탐색에서 중복된 상태 막기 위해 2개 리스트 사용
+    1. OPEN 리스트(frontier): 확장은 되었으나 아직 탐색하지 않은 상태들이 들어있는 리스트, 다음 번에 선택(탐색)할 수 있는 노드들 
+    2. CLOSED 리스트(reached 리스트): 탐색이 끝난 상태들이 들어있는 리스트 
+
+## DFS 분석 
+* 완결성?: 무한 상태 공간에서는 DFS는 무한 경로를 따라 끝없이 내려갈 수 있음. -> `무한 상태 공간에서는 완결적이지 X`
+* 시간 복잡도?: `O(b^m)` 
+    * b는 분기 계수. 
+    * m(트리 최대 깊이)이 d(정답의 깊이)보다 아주 크다면 시간이 많이 걸림. (그렇지 않은 경우 bfs보다도 빠를 수 있음.)
+* 공간 복잡도? : `O(bm)`
+    * open list의 노드들이 b개씩 m개. 선형적으로 늘어나고 있음 -> 선형 복잡도만을 가짐. 
+    * 탐색 트리에서 한 줄 단위로 탐색하므로 모든 노드들을 저장하고 있을 필요 x -> bfs에 비해 장점 
+* 최적성? : 가장 경로가 짧은 최적의 해답은 발견 x. 가장 왼쪽(leftmost)에 있는 해답만을 발견함. 
+
+
+## BFS(너비 우선 탐색; Breadth-First Search)
+* 루트 노드의 모든 자식 노드들을 탐색한 후에 해가 발견되지 않으면 한 레벨 내려가 동일한 방법으로 탐색 계속하는 방법
+* 의사코드
+    ```python
+    function BFS(root)
+        open <- [root]
+        closed <- [closed]
+        if X == goal then return SUCCESS
+        else 
+            X의 자식 노드를 생성
+            X를 closed 리스트에 추가 
+            X의 자식 노드가 이미 open이나 closed에 있다면 버림
+            나머지 자식 노드들은 open의 끝에 추가 (큐처럼 사용)
+        return FAIL
+    ```
+* ex> ppt 31 참고 
+
+## BFS 분석
+* 완결성?: 분기 계수 b가 유한하다면 너비 우선 탐색은 반드시 해답을 발견할 수 있음 
+* 시간복잡도, 공간복잡도: `O(b^d)`
+    * 노드들이 메모리 상에 있어야 하므로 시간 복잡도와 공간 복잡도는 모두 지수 복잡도가 됨. 
+    * 가장 가까운 정답 발견 가능, 그러나.. 간단한 문제가 아니라면 천문학적인 시간과 메모리 공간이 필요됨 
+
+## 깊이 제한 탐색(Deep-Limited Search)
+* DFS의 단점을 보완하여 깊이를 제한하는 방법. 
+* 기본적인건 dfs와 같으나, 끝까지 깊이 들어가지 않고 어떤 한계를 정해서 그 깊이 이상은 탐색하지 않고 백트랙킹하는 것
+* `IDDFS(Iterative Deepening DFS)`
+    * 한계 깊이를 1,2,3,4 ... 차례대로 늘려가며 깊이 제한 탐색을 진행. 목표를 찾을 때까지 제한 깊이를 늘려가며 탐색 
+    * 의사 코드 
+        ```python
+        function IDDFS(root)
+            for depth from 0 to inf do
+                found, remaining <- DFS(root, depth)
+                if found != null then
+                    return found
+                else if not remaining then
+                    return NULL
+        ```
+    * 장점: 
+        * 깊이 우선 탐색의 공간 효율성과 너비 우선 탐색의 완전성 결합.
+        * 해답이 존재하는 경우, 가장 적은 비용을 갖는 경로 찾음 
+        * 탐색 트리에서는 대부분의 노드가 하위 수준에 있으므로 비용이 생각보다 많이 들지 않음
+        * 알고리즘의 응답성 향상 
