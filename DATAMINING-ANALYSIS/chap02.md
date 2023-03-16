@@ -42,7 +42,7 @@
     * 특정 값들이 한쪽으로 편향되어 있는지? 
     * 특정 column에 있는 값들이 어떻게 분포되어있는지 파악할 필요 있음. (ex. 데이터가 정규분포를 따를때에만 적용되는 경우가 있음)
 ### (1) Record data
-* 각각의 데이터 간에 어떠한 명시적인 관계가 없음.
+* 각각의 데이터 간에 어떠한 명시적인 관계가 없음. (독립적)
 * 전처리 과정이 필요됨. 
     * record data
     * transaction data
@@ -86,7 +86,7 @@
 
 ## Noises and Artifacts 
 * Noise 
-    * 원값을 사용하는 것이 아니라 바운더리를 끊어, 바운더리 주변의 값에서 평균을 구하여 부드러운 곡선으로 변형-> 후에 패턴을 찾는데 도와줌, 변동을 줄일 수 있음. 
+    * 원 데이터를 사용하는 것이 아니라 바운더리를 끊어, 바운더리 주변의 값에서 평균을 구하여 부드러운 곡선으로 변형-> 후에 패턴을 찾는데 도와줌, 변동을 줄일 수 있음. (노이즈 정리,제거)
 * Artifacts 
     * ex> 사진에 찍힌 하얀 줄 
 
@@ -106,7 +106,7 @@
 * 중복 데이터 
 * 두가지 이슈들 
     1. 동일한 객체에 대해서 다른 값으로 들어갈 때. (JKL이 동일인물일수도)
-    2. 동명이인처럼 값이 중복해서 들어갈때. (JKL 동명이인일수도)
+    2. 동명이인처럼, 실제로는 서로 다른 값일때. (JKL 동명이인일수도)
 
 ## 데이터 전처리 (Data Preprocessing)
 * 아주 넓은 영역의 데이터를 다뤄야
@@ -117,7 +117,7 @@
     4. Feature selection: 필요 없는 feature들을 날리고 필요한 feature들만 골라서 모델을 만드는 것. 
     5. Feature creation: domain knowledge 필요. 데이터를 가공하여 새로운 feature을 만들어주는 것. (ex. 어떤 물질의 부피와 무게가 주어졌을때 밀도 feature를 만들어줌)
     6. Discretization and binarization: 이산화(숫자(numerical)인 attribute를 categorical attribute로 바꿀 때), categorical attribute를 numericla attribute로 바꾸는 것 
-    7. Variable transformation 
+    7. Variable transformation : (vairable = feature) 값을 통째로 변환시킬 때 
 1. Aggregation
     * 압축 
     * 2개 이상의 데이터들을 하나의 데이터로 결합시킴 
@@ -138,3 +138,56 @@
         2. stratified(층) sampling 
             * 클래스에 비례해서 sampling을 뽑는 것 
             * 각각의 그룹에 대해서 일정량, 비례하게 sampling을 뽑아줘야함. 
+    * sample 의 사이즈를 정하는 것이 어려움 -> Progressive(or Adaptive) Sampling 사용 
+        * 적은 샘플에서 큰 샘플 사이즈로 증가시키면서 성능을 관찰 (어느 시점 이후부터 성능이 더이상 증가하지x, 평탄해짐. (`level off`)-> 충분한 샘플링을 했다!)
+3. Dimensionality Reduction
+    * ex. `PCA(Principal Component Analysis)` : 수학적으로 구한 선과 실제 점들 사이의 차이를 최소화하는 선을 찾는다-> 점들을 선에 붙여버림 -> 일차원으로 차원 축소. (원본 데이터의 성질은 가능한한 그대로 유지)
+    * 좋은점
+        1. 차원이 축소될수록 알고리즘이 잘 작동 (차원의 저주)
+        2. 더 이해하기 쉬운 모델을 얻어낼 수 있음
+        3. 데이터를 쉽게 시각화하여 보여줄 수 있음
+            ex> 3차원을 2차원으로 축소하여 시각화 가능 
+        4. 요구되는 시간과 메모리를 축소할 수 있음 (데이터의 크기를 줄였기 때문)
+    * 차원의 저주 
+        * 차원이 늘어남-> 공간이 폭발적으로 늘어나지만, 데이터는 그대로 있음 -> 데이터가 띄엄띄엄 존재하게 됨: `sparse`
+        * classification에서 문제: 차원이 커지면서 빈 공간이 많아짐>공간에 데이터가 없어짐 
+        * clustering에서 문제: 공간이 넓어질수록 점(값)들 간의 간격이 넓어지게 됨-> 점들의 거리가 멀어짐-> 의미있는 clustering이 안됨. 
+4. Feature Selection
+    * Rebundant features: 통계학적으로 상관 관계가 높은 feature들
+    * Irrelevant feature: 거의 필요가 없는 정보를 가진 feature들 
+    * approaches to feature selection
+        1. domain knowledge를 사용 또는 직감적으로 판단 
+        2. Embedded approaches: 알고리즘 그 자체가 어떤 attribute를 쓸지 결정함 (ex. decision trees)
+        3. filter approaches: 알고리즘 돌리기 전에 correlation이 적은 attribute 택함
+        4. wrapper approaches: 성능을 가장 좋게만드는 단독 필드를 찾고, 다음 second field를 찾고 .. 어느정도 충분히 늘어나서 성능이 더 이상 증가하지 않는 시점까지의 필드들을 택함. 
+    * feature weighting: 일단 넘어감 (안함!)
+5. Feature Creation
+    * 새로운 feature을 만들어주는 것 (domain knowledge가 필요됨..)
+    * feature extraction 
+        * ex> 물질의 부피, 무게 주어졌으나 이것만으로 task 수행 어려움-> 무게, 부피 이용해 밀도 feature 새로 만들어줌 
+        * domain knowledge가 요구됨
+    * mapping the data to a new space 
+        * ex> euclidean 공간 (x,y)에서는 decision tree로 classify하기 어려움 -> polar coordinate systme(r,세타) 공간으로 변환시켜 적용함 
+        * 변환을 해야 모델이 더 좋은 결과를 찾아줄 때 사용 
+6. discretization and binarization
+    * discretization: 임의의 숫자가 나온 attribute 값들(연속적인 값들)을 범주화시킴. 
+        * 어떻게 범위를 나누는지가 문제. 
+        * simple approaches
+            * equal width discretization: 데이터가 한축에 많이 모여있을때 한끗 차이로 다른 범주가 되어버릴 수도 있음..
+            * equal frequency discretization: 간격마다 같은 갯수의 값들이 각각 들어가도록..
+            * clustering-based discretization: cluster에 따라 범주를 나누어주는 것 
+    * binarization(이진화): binary 로 바꾸어주는 것 
+        * 단순 넘버링은 위험할 수 있음. -> 가능한한 이진화를 사용 (0,1)
+        * simple technique: 해당 feature가 있으면 1, 없으면 0 -> `원한? 인코딩`
+7. Variable(=feature) transformation
+    1. simple functions: 스케일링 효과. 간단한 수학적 function 적용시킴 
+        * ex> 주로 로그 사용하여 숫자를 다운시킴
+        * ex2> 데이터를 normal distribution 로 바꾸고자 할때 제곱근, 로그, 1/x 많이 사용함 
+    2. normalization(정규화) or standardization
+
+---
+
+## 유사도/비유사도 측정 
+* 근접도(Proximity): 얼마나 두 개체가 유사한가 (유사도,비유사도 둘다 포함하는 개념), 많은 proximity measures가 존재(어떤 measure를 쓸지 결정해야..)
+* 유사도: 유사할수록 값이 크게 나옴 
+* 비유사도: 유사할수록 값이 작게 나옴 
