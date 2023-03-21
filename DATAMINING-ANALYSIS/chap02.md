@@ -141,7 +141,7 @@
     * sample 의 사이즈를 정하는 것이 어려움 -> Progressive(or Adaptive) Sampling 사용 
         * 적은 샘플에서 큰 샘플 사이즈로 증가시키면서 성능을 관찰 (어느 시점 이후부터 성능이 더이상 증가하지x, 평탄해짐. (`level off`)-> 충분한 샘플링을 했다!)
 3. Dimensionality Reduction
-    * ex. `PCA(Principal Component Analysis)` : 수학적으로 구한 선과 실제 점들 사이의 차이를 최소화하는 선을 찾는다-> 점들을 선에 붙여버림 -> 일차원으로 차원 축소. (원본 데이터의 성질은 가능한한 그대로 유지)
+    * ex. `PCA(Principal Component Analysis)` : 수학적으로 구한 선과 실제 점들 사이의 차이를 최소화하는 선을 찾는다(not linear regression. linear regression은 세로축으로 거리를 짓지만 PCA는 선과 수직이 되도록 하여 거리를 잼)-> 점들을 선에 붙여버림 -> 일차원으로 차원 축소. (원본 데이터의 성질은 가능한한 그대로 유지, 압축을 하기 때문에 어쩔 수 없이 손실은 일어남.)
     * 좋은점
         1. 차원이 축소될수록 알고리즘이 잘 작동 (차원의 저주)
         2. 더 이해하기 쉬운 모델을 얻어낼 수 있음
@@ -153,8 +153,8 @@
         * classification에서 문제: 차원이 커지면서 빈 공간이 많아짐>공간에 데이터가 없어짐 
         * clustering에서 문제: 공간이 넓어질수록 점(값)들 간의 간격이 넓어지게 됨-> 점들의 거리가 멀어짐-> 의미있는 clustering이 안됨. 
 4. Feature Selection
-    * Rebundant features: 통계학적으로 상관 관계가 높은 feature들
-    * Irrelevant feature: 거의 필요가 없는 정보를 가진 feature들 
+    1. Rebundant features: 통계학적으로 상관 관계가 높은 feature들 날리기
+    2. Irrelevant feature: 거의 필요가 없는 정보를 가진 feature들 날리기
     * approaches to feature selection
         1. domain knowledge를 사용 또는 직감적으로 판단 
         2. Embedded approaches: 알고리즘 그 자체가 어떤 attribute를 쓸지 결정함 (ex. decision trees)
@@ -170,7 +170,7 @@
         * ex> euclidean 공간 (x,y)에서는 decision tree로 classify하기 어려움 -> polar coordinate systme(r,세타) 공간으로 변환시켜 적용함 
         * 변환을 해야 모델이 더 좋은 결과를 찾아줄 때 사용 
 6. discretization and binarization
-    * discretization: 임의의 숫자가 나온 attribute 값들(연속적인 값들)을 범주화시킴. 
+    * discretization(이산화): 임의의 숫자가 나온 attribute 값들(연속적인 값들)을 범주화시킴. 
         * 어떻게 범위를 나누는지가 문제. 
         * simple approaches
             * equal width discretization: 데이터가 한축에 많이 모여있을때 한끗 차이로 다른 범주가 되어버릴 수도 있음..
@@ -191,3 +191,45 @@
 * 근접도(Proximity): 얼마나 두 개체가 유사한가 (유사도,비유사도 둘다 포함하는 개념), 많은 proximity measures가 존재(어떤 measure를 쓸지 결정해야..)
 * 유사도: 유사할수록 값이 크게 나옴 
 * 비유사도: 유사할수록 값이 작게 나옴 
+* EX> Proximity Measures
+    1. [Dissimilarity] 거리: Manhattan distance, Euclidean distance, Supremum distance..
+    2. [Simliarty] Simliarity coeffiecients: Simple matching coefficient, Jaccard coefficient 
+    3. [Simliarity] Cosine simliarity
+    4. [Similarity] Correlation
+    5. [Similarity] Mutual information
+1. Distance 
+    * 데이터는 vector로 바뀌어 있다고 전제. 
+    * 어떤 거리 측정법을 사용할지를 데이터/ 데이터 분석목적에 맞게 개발자가 설계/혹은 결정해야함. 
+    * Euclidean distance: x,y좌표의 차이를 유의미하게 반영하고 싶을 때 사용하는 거리 측정법 (항상 통하는 거리 측정법은 아니다.)
+    * Minkowski distance
+        1. L1 norm: Manhattan distance (r=1)
+        2. L2 norm: Euclidean distance (r=2)
+        3. L3 norm: Supremum distance (r= $$infty$$)
+            * attribute 중에서 가장 차이가 많이 나는 거리를 알고 싶을 때 사용 
+    * 거리의 특징
+        1. Positivity: 양수여야함.
+        2. Symmetry: x에서 y까지의 거리 y에서 x까지의 거리는 일치해야함. 
+        3. Triangle inequality: 삼각형에 관한 부등식 -> clustering할때 문제 발생하는거 방지 가능 (x와 z사이 거리가 너무 먼데 x,y,z가 같은 cluster로 묶어지는 문제가 발생하는 걸 삼각형에 관한 부등식을 통해 방지 가능 )
+        => 이러한 특징들은 우리의 직관에 대한 결과를 잘 표현해줄 수 있음.  
+2. Simliarity Coefficients 
+    * SMC(Simple matching coefficient): 전체 개수를 모두 센 다음에 같은 비트를 세주는 것 
+    * J(Jaccard coefficient): presences들만 세주는 것. 
+3. Cosine similarity
+    * x와 y 사이의 angle을 측정 
+    * 내접값 
+    * x의 길이 y의 길이-> normalization
+    * 같은 칸에 같은 워드가 많이 나올수록(0이 아닌 값) 내접값 증가 
+4. Correlation 
+    * 관련성이 있는가 
+    * 많은 correlation type이 존재 : 이번 수업에서는 Pearson's correlation 
+    * Pearson's Correlation
+        * standard_deviation: 0~1사이 값으로 표현하기 위해 존재
+        * covariance: (x,y)가 있을때 평균에서 얼마나 떨어져있는지를 x,y 동시에 고려해주는 것. (x가 커질수록 y가 커지면 covariance값이 커짐)
+            * scale을 타기 때문에 normalization이 필요됨. 
+            * preprocessing할때 많이 쓰임: rebundant feature 제거할때 corr을 계산하여 1에 가까운 값-> 움직임이 똑같은 값이므로 필요가 없음 -> 제거! 
+        * ex> 증가 패턴이면 corr 그대로... 
+5. Mutual information
+    * mutual information=1 : x값이 y값을 결정하는데 영향력이 세다 
+        * distinct한 number가 몇개인지에 따라 최대값은 1보다 더 커질 수 있음 
+    * mutual information=0 : x값이 y값을 결정하는데 영향력이 없다 
+    * 이쪽의 정보가 다른쪽의 정보에 얼마나 영향을 미치는지를 보여줌 
