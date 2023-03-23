@@ -233,3 +233,21 @@
         * distinct한 number가 몇개인지에 따라 최대값은 1보다 더 커질 수 있음 
     * mutual information=0 : x값이 y값을 결정하는데 영향력이 없다 
     * 이쪽의 정보가 다른쪽의 정보에 얼마나 영향을 미치는지를 보여줌 
+6. Entropy
+    * 정신없는(?) 정도 -> 값의 복잡성을 보는 measure
+    * 확률에 반비례한 값 - 정보량 
+    * if 평균 정보량을 알고 싶을 때..
+    * 단순히 역수를 취하는 것(ex. 1/x)만으로 표현이 부족함 -> log 도입 (곡선이 더 완만해지고, 정보량이 더 좋게 표현될 수 있음)
+    * 엔트로피가 높다 = x,y값이 다양하게 나옴 
+    * 엔트로피가 낮다 = x값에 상관없이 y값이 일정하게 나옴 
+    * ex> mutual information
+        1. x의 엔트로피 구하기 , y의 엔트로피 
+
+## issues in proximity calculation
+1. Standardization
+    * Rescaling : min을 0으로 max를 1로 만들기 
+    * Mean normalization: 평균값으로 normalization 
+        * ex> min=0, max=100, avg=60 -> min=0, max=1, avg=0.6 ->[*avg를 기준으로*] min=-0.6, max=0.4, avg=0 (ppt 72쪽 그림 필기 참고)
+    * standardization (in statistics): 0-mean, 1-variance
+2. using weights 
+    * 더 중요하다고 생각하는 attribute에 영향력을 주는 것 
