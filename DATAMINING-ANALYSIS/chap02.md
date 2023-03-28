@@ -246,7 +246,7 @@
 ## issues in proximity calculation
 1. Standardization
     * Rescaling : min을 0으로 max를 1로 만들기 
-    * Mean normalization: 평균값으로 normalization 
+    * Mean normalization: 평균값으로 normalization (평균을 0으로 만들기)
         * ex> min=0, max=100, avg=60 -> min=0, max=1, avg=0.6 ->[*avg를 기준으로*] min=-0.6, max=0.4, avg=0 (ppt 72쪽 그림 필기 참고)
     * standardization (in statistics): 0-mean, 1-variance
 2. using weights 
