@@ -63,7 +63,7 @@
     * categorical attribute 
 
 ### selecting an attribute test condition
-* 혼잡도를 계산 -> 엔트로피 사용 
+* 혼잡도를 계산 -> 엔트로피 사용 (혼잡도 계산하는 다른 방법들도 존재)
     * pure node : 가능한 한 pure하는 노드를 찾자
     * impure node 
 
@@ -107,7 +107,8 @@
 2. Model Selection: 복잡도가 어느정도 되어야 하는 모델인가? 
 3. Model evaluation: 2번 과정을 통해서 선택한 모델이 얼마나 잘 돌아가는가 
 4. Presence of hyper-parameters : 2번과 4번 관련되어 있음(복잡도 관련),  parameter는 모델이 학습을 통해 알아내는 값, hyper-parameter은 사람이 지정해야하는 parameter(기계가 학습을 할 수 없으므로) 
-    * ex. neural network을 쓰면 layer을 몇개 두어야할지, neuron의 갯수는 몇개로 할지 등은 사람이 지정해줘야함 (hyper-parameter)
+    * hyper-parameter의 종류는 다양함, hyper-parameter들 중 모델의 복잡도를 결정하는 요소들이 있음 (hyper-parameter가 2번보다 더 큰 개념이라 생각하세요)
+    * ex. neural network을 쓰면 layer을 몇개 두어야할지, neuron의 갯수는 몇개로 할지 등은 사람이 지정해줘야함 (hyper-parameter 중 모델의 복잡도를 결정하는 요소)
 
 ### 1. Model Overfitting
 * 너무 과도하게 training data에 fit된 문제 
@@ -116,5 +117,65 @@
         * 이것이 너무 크게 차이가 나면 overfitting
 * model underfitting : 너무나 단순한 모델을 써서 training data조차 제대로 묘사를 하지 못하는 경우 발생 
     * 해결방법: model의 복잡도를 높여야함. (너무 복잡도를 올리면 overfitting 발생할수도..) or data를 많이 넣어주기 
-* 발생하는 이유: 가진 데이터에 비해서 모델의 복잡도가 너무 강해서 overly complex 하기 때문 
-    * 너무 specific한 패턴들을 잡아버리게 됨 
+* 발생하는 이유
+    1. limited training size
+        * 트레이닝 데이터를 너무 작게 주면 test data에 대한 성능이 안좋게 나올 수 밖에 없음 
+        * 요즘은 이런 경우 없음 
+    2. high model complexity
+        * 데이터가 별로 없는데 너무 과도하게 복잡도를 높였을 경우 -> 데이터에 비해 모델이 너무 복잡할때 (너무 specific한 패턴들을 잡아버리게 됨)
+* 모델 복잡도를 측정하는 법? 
+    * parameter의 개수 = 모델의 복잡도 (많을수록 복잡도 증가, 유연성이 증가)
+        * decision tree: node의 개수 
+        * linear aggression: coefficient의 개수 
+        * neural network: 가중치의 개수 (뉴런, layer의 개수)
+    * parameter가 너무 많은데 training data가 너무 작다면.. -> 임의의 데이터가 정답으로 간주될 수도 있음 (다른거 묘사를 못하게됨, overfitting) (just by random chance)
+### 2. Model Selection
+* Data = D.tr+ D.val+ D.test 
+    * D.tr: 모델을 만들때 사용함
+    * D.val : 최소의 hyper-parameter 선택할 때 씀 (모델을 선택할 때)
+        * error rate on D.val 은 validation error rate 
+    * D.test: 선택 완료 후, 성능 측정할때 사용 
+* 한계
+    * D.tr이 너무 작으면, porr model
+    * D.val이 너무 작으면, 한쪽이 너무 치우치기 때문에 믿을 수가 없음 
+    * 2/3으로 나누면 적당하다 
+* pre-pruning (only for decision tree): 가지를 치기 전에 멈추는 것 
+    * 가지를 치다가 혼잡도가 충분히 떨어지면 멈춤 (충분한 혼잡도가 갖춰지면 멈춤)
+    * 장점: training data의 너무 복잡한 subtree 생성을 피함  
+    * 단점: 최선의 성능을 가지리란 보장이 없음 ( 다 안열어봤기 때문)
+* post-pruning (only for decision tree)
+    * 하나씩 접어 올라가면서 접었을때 validiation 에 대한 성능이 더 좋은지 살펴보는 것
+    * 접었는데 좋으면 계속 접어들어감 (성능이 안좋아질때까지 계속 접어감)
+    * trimming 전략 1: subtree replacement 
+    * trimming 전략 2: subtree raising (시험 문제 안낸다)
+### 3. Model Evaluation 
+* unseen 데이터에 대한 성능을 측정하기 위해 별도의 테스트 수행 
+* a correct approach for model evaluation 
+    * 한번만 테스트하는 것으로는 불안함 -> 여러번 테스트하여 평균을 측정하여 성능을 더 정확히 측정 (cross-validation)
+* holdout method(한번만 하는거)/ cross-validation(여러번 테스트 하는거)
+    * Holdout Method 
+        1. D를 D.train, D.test로 나눔 
+        2. D.train으로부터 모델을 선택하고 train
+        3. D.test에 대한 일반적인 성능을 측정 
+    * D.train과 D.test의 비율 
+        * 통상적으로 D.train:D.test=3:1이면 적당 
+    * random subsampling (or repeated method)
+        * hold out을 여러번 해서 성능을 측정 
+* cross-validation
+    * 모든 데이터에 대해서 test를 한번씩 수행 가능 
+    * 모든 데이터는 반드시 한번의 test에 참여하게 되어있음 
+    * 각각의 test data는 몇번 test에 쓰이고 .. 가 시험에 나옴 
+    * the right choice of k 
+        * k값을 너무 작게 잡으면.. training data가 줄어듦 -> 모델의 최고점의 성능을 찍지 못하게됨(성능이 안좋아짐)
+        * k값이 너무 크면 .. 
+        * Leave-one-out approach    
+            * 장점: training하는데 데이터를 가능한한 많이 활용 가능 
+            * 단점: 시간이 너무 오래걸림 
+            * 보통 k는 5~10 사이로 사용됨 
+    * E라는 것은 model selection approach의 일반적인 error rate의 예측값 
+### 4. Presence of Hyper-Parameters 
+* hyper-parameter: 몇개로 할 것인가?가 대표적인 하이퍼 파라미터. 
+1. simple approach 
+    * p값의 후보를 줘야함 
+    * D.train을 D.tr과 D.val로 나눔 
+    * D.val 하나만 보고 parameter을 선택하는 것은 불안함
