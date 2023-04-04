@@ -167,15 +167,21 @@
     * 각각의 test data는 몇번 test에 쓰이고 .. 가 시험에 나옴 
     * the right choice of k 
         * k값을 너무 작게 잡으면.. training data가 줄어듦 -> 모델의 최고점의 성능을 찍지 못하게됨(성능이 안좋아짐)
-        * k값이 너무 크면 .. 
+        * k값이 너무 크면 .. : 시간이 너무 오래 걸림 
+        * k값은 보통 최소 5이상, 10 정도를 많이 사용함 
         * Leave-one-out approach    
             * 장점: training하는데 데이터를 가능한한 많이 활용 가능 
             * 단점: 시간이 너무 오래걸림 
             * 보통 k는 5~10 사이로 사용됨 
     * E라는 것은 model selection approach의 일반적인 error rate의 예측값 
 ### 4. Presence of Hyper-Parameters 
+* cross-validation 확장 : validation에 대한 cross-validation 
 * hyper-parameter: 몇개로 할 것인가?가 대표적인 하이퍼 파라미터. 
 1. simple approach 
     * p값의 후보를 줘야함 
     * D.train을 D.tr과 D.val로 나눔 
     * D.val 하나만 보고 parameter을 선택하는 것은 불안함
+2. cross-validation : validation에 대한 cross-validation
+3. nested cross-validation 
+* 위험성
+    * training set과 test set은 겹치면 안됨! 
