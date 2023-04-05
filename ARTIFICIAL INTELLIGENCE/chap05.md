@@ -90,3 +90,11 @@
 
 ## 논리융합 (Resolution) 
 * 추가자료 참고 
+
+## 술어 논리에서의 추론 
+1.
+2. 논리융합(resolution)
+
+## 정형식(well-formed fomular)
+* WFF
+
