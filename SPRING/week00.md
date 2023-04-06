@@ -30,3 +30,13 @@
 
 #### 좋은 객체 지향 설계의 5가지 원칙: SOLID
 1. `S`RP(Single Responsibility Principle) - 단일 책임 원칙 
+2. `O`CP(Open/closed principle) - 개방-폐쇄 원칙 
+3. `L`SP (Liskov substitution principle) - 리스코프 치환 원칙
+4. `I`SP (Interface segregation principle) -인터페이스 분리 원칙
+5. `D`IP (Dependency Inversion principle) - 의존관계 역전 원칙 
+
+
+### 결론
+* 모든 설계에 **역할** 과 **구현**을 분리하자 
+* 애플리케이션 설계도 공연을 설계 하듯이 배역만 만들어두고, 배우는 언제든지 *유연*하게 **변경**할 수 있도록 만드는 것이 좋은 객체 지향 설계다
+* 이상적으로 모든 설계에 인터페이스를 부여하자 
