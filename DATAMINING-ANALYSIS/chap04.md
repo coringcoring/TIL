@@ -84,3 +84,5 @@
 
 ## Bayesian (Belief) Networks
 * naive Bayes는 무리한 가정(독립이라는 가정)을 했었음 -> assumption이 너무 과도한 경향이 있었음 => naive Bayes보다 유연한 모델! 
+
+## Logistic Regression 
