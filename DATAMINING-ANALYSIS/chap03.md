@@ -5,25 +5,35 @@
 * 데이터
     * x = (x1,...,xn)
     * y= categorical label 
-* 모델 : x와 y 사이의 관계를 추상적으로 표현 
+* 모델 : x와 y 사이의 관계를 `추상적`으로 표현 
 * ex> loan borrower classification 
-    * supervised learning (지도 학습)
+    * attribute들은 type 제한이 없음 / but y는 `categorical type`이어야! 
+    * 모든 attribute들이 classification task와 관련이 있지 `않음` (ex. ID)
+    * `supervised learning` (`지도 학습`)
 * general framework
-    1. classification
-    2. classifier = model
-    3. training set 
-    4. learning algorithm(학습 알고리즘): 모델을 만들어내는(규칙을 찾아내는) 알고리즘
-    5. induction: 귀납, 일반화된 rule을 찾는 것 
-    6. deduction: 연역, 각각의 건에 대해 모델을 적용하여 예측하는 것
+    1. `classification` : 라벨이 붙여져 있지 않는 instance들에게 label을 붙이는 task
+    2. `classifier` = `model` 
+    3. `training set`    
+        * 모델을 만들기 위해 주어진 instance들의 set 
+        * attribute 값들+ 각각 instance들의 `class label`들을 가지고 있음 
+    4. `learning algorithm`(학습 알고리즘): 모델을 만들어내는(규칙을 찾아내는) 알고리즘
+    5. `induction`: `귀납`, 일반화된 rule을 찾는 것 -> `학습 알고리즘`을 사용하여 training data로부터 `모델`을 만들어내는 것 
+    6. `deduction`: `연역`, 각각의 건에 대해 모델을 적용하여 예측하는 것 -> 모델을 적용하여 보지 않은 instance들에 대해 class label을 예측하는 것 
 
 ### performance of a classifier 
-* data set을 training set과 test set으로 분할해야함. 
+* 예측한 label과 실제 label을 비교함으로써 classifier(=model)을 평가 가능 
+* data set을 `training set`과 `test set`으로 분할해야함. 
     * training data: 모델을 만드는데 사용 
-    * test data: 안 본 데이터를 통해 모델 실전 성능을 측정 -> **good generalization performance** 
+    * test data: 안 본 데이터를 통해 모델 실전 성능을 측정 -> `**good generalization performance**` 
+        * 모델은 보지 않은 데이터에 대해서도 정확하게 class label들을 예측해내야함 
+        * training set로 평가하는 것은 **generalization performance**의 좋은 방법이 아님 
 
 ### evaluation metrics 
-* confusion matrix 
+* confusion matrix : classifier(=model)의 performance 평가의 결과를 묘사한 테이블 
     ex> accuracy, error rate, recall 
+    * 정확도(Accuracy) = 맞은 prediction의 수 / 전체 예측의 수 
+    * 에러율 (error rate)= 잘못된 prediction의 수 / 전체 예측의 수 
+    * ppt 그림 참고 
 
 ---
 ## Decision Tree Classifier
