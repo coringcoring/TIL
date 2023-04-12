@@ -1,4 +1,4 @@
-# CHAP 06 
+# CHAP 06 (1)
 
 ## 퍼지 논리 
 * fuzzy: "not clear, not distinct, or not precise; blurred"
@@ -31,3 +31,21 @@
 
 ## 퍼지 추론
 * 맘다니형 추론 (Mamdani method)
+
+---
+
+# CHAP 06(2)
+## 계획(Planning)
+* 주어진 과제를 해결하기 위해 매순간의 상태마다 행동을 취하기 이전에 미리 계획을 세워 보는 것이 신속하게 문제를 해결할 수 있음
+* 상태공간에서 계획을 형식적으로 정의하면
+    * `계획(plan)`: 임의의 상태 Si에서 목표 상태인 Sq에 도달하기 위한 순차적인 동작자들의 열(sequence)
+    * `계획한다(planning)`: 이러한 계획을 탐색하는(찾아내는) 과정을 계획 
+* 대표적인 계획 시스템인 `STRIPS(Standford Research Institute Problem Solver)`를 중심으로 계획과정을 설명함 
+## STRIPS
+* 블록세계의 상태들을 술어논리식에 의해 표현 (PPT 참고)
+* 로봇이 취할 수 있는 행동을 동작자로 표현 (PPT 참고)
+* 동작자들을 세 개의 `리스트`로 표현
+    * `전제조건(precondition) 리스트`
+        * 각 동작자는 이들이 적용 가능한 상태를 명시 
+    * `삭제(deletion) 리스트`
+    * `첨가(addition) 리스트` 
