@@ -29,29 +29,39 @@
         * training set로 평가하는 것은 **generalization performance**의 좋은 방법이 아님 
 
 ### evaluation metrics 
-* confusion matrix : classifier(=model)의 performance 평가의 결과를 묘사한 테이블 
+* `confusion matrix` : classifier(=model)의 performance 평가의 결과를 묘사한 테이블 
     ex> accuracy, error rate, recall 
-    * 정확도(Accuracy) = 맞은 prediction의 수 / 전체 예측의 수 
-    * 에러율 (error rate)= 잘못된 prediction의 수 / 전체 예측의 수 
+    * `정확도(Accuracy)` = 맞은 prediction의 수 / 전체 예측의 수 
+    * `에러율 (error rate)`= 잘못된 prediction의 수 / 전체 예측의 수 
     * ppt 그림 참고 
 
 ---
 ## Decision Tree Classifier
-* 주어진 데이터에서 트리를 찾아내는 것이 목표
-* 어떤 attribute를 선택하느냐가 문제 
-* 설명이 편한 model. 
+* 주어진 데이터에서 **트리**를 찾아내는 것이 목표
+    * **class label**을 찾아낼때까지 
+    * `decision tree`: 여러개의 질문들, 가능한 답들이 **계층적**으로(hierachical) 조직된 구조
+* 어떤 `attribute`를 선택하느냐가 문제 -> 여러 개의 instance의 속성들에 대한 질문들을 통해 classification 문제를 해결 
+* **설명**이 편한 model. 
 
 ### structure of decision tree 
-* **attribute test condition** 
+* `root node` : `0개` 이상의 link들 연결되어 있음
+* `internal node`: `1개`의 들어오는 link, `2개` 이상의 나가는 link가 연결됨
+* `leaf(terminal) node`: 정확히 `1개`의 들어오는 link, 나가는 link가 `없음` 
+* **attribute test condition** : **root**와 **internal node**에 포함되어 있음, *해당 노드의 자식 중 정확히 하나에 대응된다는 것을 의미* 
 
 ### classifying an unlabeled instance
 * knn 알고리즘은 실시간 처리 불가능 (너무 느림)
+* 기본적인 순서
+1. `root node`에서 시작
+2. `attribute test condition`을 적용하여, test의 결과에 근거한 적절한 `가지`를 따라간다
+3. `leaf node`에 도달하면, instance에게 node에 해당되는 `class` 값을 할당해줌 
 
 ### algorithms to build a decision tree
-* attribute가 많아질수록 exponential 해짐 (여러가지의 가짓수가 생겨버림!)
-    * `optimal`을 찾아내는 것은 어려움 
-* 효과적인 알고리즘은 적당히(reasonably) 정확함
-    * greedy strategy 대개 사용 
+* **attribute**가 많아질수록 `exponential` 해짐 (여러가지의 가짓수가 생겨버림!)
+    * `optimal`한 data set을 찾아내는 것은 어려움 
+    * 많은 decision tree들은 particular한 data set에 의해 만들어질 수 있음 
+* 효과적인 알고리즘은 `적당히(reasonably) 정확함`
+    * `greedy strategy` 대개 사용 -> decision tree를 top-down 방식으로 키움 
     * 그 시점에서 최선(`locally optimal`)
 * ex> hunt's algorithm , ID3(+information gain), C4.5(numeric도 다루게됨), CART(classification + regression(숫자를 예측) tree) 
 
