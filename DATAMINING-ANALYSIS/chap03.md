@@ -67,60 +67,98 @@
 
 ### Hunt' algorithm
 1. root node에서 시작 
-2. **splitting criterion**: 어떤 값으로 갈라치기를 해야하나 
+2. **splitting criterion**을 사용하여 가지치기: 어떤 값으로 갈라치기를 해야하나 
     * entropy를 가장 낮추는 방향으로 갈라치기를 하는 것이 좋음 
-3. **stopping criterion**: 어디까지 갈라치기해야하나 
-    * training data에만 딱 맞게 class 하나만 남도록 끝까지 갈라치기하는 것은 위험한 전략 -> overfitting 문제 발생 가능 
+    * splitting criterion은 **attribute test condition**을 결정지음
+        * attritbute test condition의 결과에 따라 **child node**들이 만들어지고, children에게 instance들이 **분배**됨 
+3. **stopping criterion**이 만족되면 가지치기를 멈춘다: 어디까지 갈라치기해야하나 
+    * training data에만 딱 맞게 class 하나만 남도록 끝까지 갈라치기하는 것은 위험한 전략 -> `overfitting` 문제 발생 가능 
+    * 가장 많은 training instance가 발생한 것에 해당하는 class 라벨을 leaf node에 할당 
 
 ### design issues of decision tree induction
-1. splitting criterion
-2. stopping criterion : 어느 시점에서 멈출지 알 수 없음. overfitting 발생 전에 멈춰야. 
+1. `splitting criterion`: 각각의 노드에서 하나의 `attribute`과 그것의 `값`들을 training instance들을 나누기 위해 선택해야함. 
+    * 어떤 `attribute`를 조건으로 택할지를 결정 
+    * training instance들이 `child node`에 어떻게 분배될지를 결정 
+2. `stopping criterion` : 어느 시점에서 멈출지 알 수 없음. `overfitting` 발생 전에 멈춰야. 
+    * node에 있는 training instance들이 똑같은 **class label**들을 가지고 있을 때 **가지치기**를 멈출 수 있지만, **overfitting** 발생 전에 가지치기를 멈춰야함. 
 
 ### attribute test conditions 
-* binary split: 2 그룹으로 나누는 것 (why? 시간이 적게 걸림)
-* multiway split : 여러개로 나누는 것 
-    * numeric attribute 
-    * categorical attribute 
+* **`binary split`**: 2 그룹으로 나누는 것 
+    * (why? *시간이 적게 걸림*, *overfitting을 방지해줌*(여러개로 나누게 되면 트리의 깊이가 더 깊어지고 모델이 복잡해지므로 **overfitting**이 발생할 확률이 높아지게됨))
+* **`multiway split`** : 여러개로 나누는 것 
+    * `numeric attribute` : range로 split함  
+    * `categorical attribute` 
 
 ### selecting an attribute test condition
-* 혼잡도를 계산 -> 엔트로피 사용 (혼잡도 계산하는 다른 방법들도 존재)
-    * pure node : 가능한 한 pure하는 노드를 찾자
-    * impure node 
+* 가능한 한 `pure`한 노드를 찾자
+* `혼잡도`를 계산 -> `엔트로피` 사용 (혼잡도 계산하는 다른 방법들도 존재)
+    * `**pure node**` : node에 있는 training instance들이 모두 똑같은 class들을 가짐
+    * `**impure node**` : node에 있는 training instance들이 여러개의 class들을 가짐 
+    * impure한 노드들은 `트리의 깊이`를 깊어지게 하고, 큰 트리들은 `model overfitting`을 유발할 가능성이 높음  
 
 ### impurity measures for a single node 
-1. 엔트로피
-2. 지니 계수 (Gini Index)
-3. classification error
+1. **`엔트로피`**: 값들의 `information`과 `uncertainty`의 평균
+    * `발생확률`이 클수록 `정보량` 감소 
+2. **`지니 계수 (Gini Index)`**: 값들 사이의 `inequality` 정도 
+    * 모든 값들이 똑같으면 `minimized`(`perfect equality`)
+    * 모든 값들이 가능한한 모두 다르면 `maximized` 
+3. **`classification error`**: 가장 많은 class들에 속하지 않은 instance들의 비율 
+* 모두 `binary` classification problem에서 distribution이 `uniform`할 때 impurity가 `maximized`됨    
+    * instance들이 모두 하나의 class에 대응할때 impurity는 모두 `minimized`됨 
+
+### collective impurity of cihld nodes
+* ppt 참고 
 
 ### finding the best attribute test condition
-* information gain을 계산 
-    * entropy
-    * gini index 
+* `goodness` of an `attribute test condition`을 결정해야함 
+    * 가지치기를 하고 얼마나 `impurity`가 **감소**하는지를 측정해야함
+    * 많이 impurity가 감소할수록 좋은 test condition이 됨 
+* **`information gain`**을 계산 : Information Gain = `I(parent)`-`I(children)`
+    * I(parent): 가지치기 하기 전에 부모 노드의 impurity
+    * I(children): 가지치기 하고 나서 자식 노드들의 impurity
+    * entropy로 impurity 계산 예 (ppt) 참고
+    * gini index 도 마찬가지로 ppt참고 
 
-### decision tree의 장점
-1. applicability
-    * 어떤 distribution이든 잘 작동함 (잘 가르는가? 만 보기 때문에 skewed되어도 잘 가르기만 하면 되므로 문제가 안됨.)
-    * 전처리가 딱히 필요 없다. (categorical, numeric data 둘다 적용 가능)
-    * multiclass problems 또한 처리 가능 (class가 많아져도 사용가능) (cf. logistic regression은 multiclass problem 쓸 수 없음.)
-    * *해석하기가 쉬움* 
-2. expressiveness
-    * 가지만 늘리면 powerful한 모델이 되지만 overfitting 문제 발생 -> 해결: 여러개의 모델을 만들어서 취합 후 정확성을 높임 (앙상블 기법)
-3. computional efficiency
-    * 데이터가 많고 어려운 상황에서 적절함 (빠르기 때문!)
-    * ex> greedy, top-down(위에서 아래로 내려오는), recursive partitioning strategy
-4. handling missing values 
-5. handling irrelevant attributes
-    * y를 결정하는데 상관없는 attribute 가 많다면.. decision tree는 잘돌아갈까? -> 잘 안돌아간다! (우연히 y가 잘 갈라질 수도 있겠지만.. 잘못된 판단을 할 수 있음)
+### Binary Splitting of Numeric Attributes
+* 기본적인 방법 순서 (ex. annual income)
+    1. annual income에 따라 training instance들을 분류
+    2. 후보를 나눌 수 있도록 `midpoint`를 선택 
+    3. 각각의 split된 후보들의 `information gain`을 계산
+    4. 가장 높은 `information gain`을 만들어내는 position을 선택 
+
+### decision tree classifier의 장점
+1. **`applicability`**
+    * 어떤 `distribution`이든 잘 작동함 (잘 가르는가? 만 보기 때문에 `skewed`되어도 잘 가르기만 하면 되므로 문제가 안됨.)
+    * `전처리`가 딱히 필요 없다. (**categorical**, **numeric** data 둘다 적용 가능)
+    * **multiclass problems** 또한 처리 가능 (class가 많아져도 사용가능) (cf.**logistic regression**은 multiclass problem 쓸 수 없음.)
+    * 유도된 트리는 *해석하기가 쉬움* 
+2. **`expressiveness`**
+    * x랑 y가 **discrete**하면 함수로 만들어줄 수 있다 -> 표현이 가능하다! 
+    * 가지만 늘리면 powerful한 모델이 되지만 `overfitting` 문제 발생 -> 해결: 여러개의 모델을 만들어서 취합 후 정확성을 높임 (`앙상블` 기법)
+3. **`computational efficiency`**
+    * 많은 decision tree 유도 알고리즘들은 `heuristic`한 접근을 사용 
+        * ex> greedy, top-down(위에서 아래로 내려오는), recursive partitioning strategy
+    * 데이터가 **많고** **어려운** 상황에서 적절함 (`빠르기` 때문!)
+    * 데이터가 크더라도 **빠르게** decision tree를 적당히 좋게 만들어낸다 
+    * test instance들을 분류하는 속도가 **매우 빠르다** 
+4. **`handling missing values`** 
+    * **non-missing** value들로 missing value를 가지고 있는 instance를 child node에 배정 가능 or missing value를 가지고 있는 instance들을 **배제**함 
+5. **`handling irrelevant attributes`**
+    * y를 결정하는데 상관없는 attribute 가 많다면.. decision tree는 잘돌아갈까? -> *잘 안돌아간다*! (우연히 y가 잘 갈라질 수도 있겠지만.. **잘못된 판단**을 할 수 있음)
     * 관련 없는 attribute를 꼭 처리해줘야! (전처리 강조)
-6. handling redundant attributes
-    * 거의 동일한 정보를 가지고 있는 attribute (redundant)
-    * 이것에 대해서는 decision tree가 잘돌아감. (하나가 선택되면, 또다른 하나는 나중에 또 select될 확률이 낮아지므로)
-7. using rectilinear splits
-    * decision tree는 사선을 흉내내기 위해 가지를 계속 쳐야함.. 
-    * 복잡한 데이터 패턴을 알아내기가 어려움 
-8. choice of impurity measure
-    * 어떤 impurity measure을 선택하더라도 성능에 큰 차이는 없음 
-    * 일정 수준 이하의 entropy가 확보되면 decision tree 가지치기를 멈춤 (limit을 거는것) (or depth가 어느정도 내려왔을때 stopping condition)
+6. **`handling redundant attributes`**
+    * 거의 **동일한** 정보를 가지고 있는 attribute (`redundant`)
+    * 이것에 대해서는 decision tree가 잘돌아감. (하나가 선택되면, 또다른 하나는 나중에 또 select될 확률이 **낮아지므로**)
+7. **`using rectilinear splits`**
+    * **test condition**은 각각 하나의 **attribute**만을 포함하기 때문에, `decision boundary`들이 `rectilinear`하다 (`coordinate axes`에 `평행`하다)
+        * `decision boundary`?: 다른 class들의 지역을 구분짓는 경계선 
+    * decision tree는 `사선`을 흉내내기 위해 가지를 계속 쳐야함.. 
+    * `복잡한` 데이터 패턴을 알아내기가 어려움 
+8. **`choice of impurity measure`**
+    * 어떤 impurity measure을 선택하더라도 성능에 큰 차이는 **없음**
+        * 이유: measure들이 꽤 서로 **비슷함** 
+    * 대신, `stopping condition` [일정 수준 이하의 entropy가 확보되면 decision tree 가지치기를 멈춤 (limit을 거는것) (or depth가 어느정도 내려왔을때 stopping condition)] 은 `final tree`에 큰 영향을 준다. 
+        * 이유: tree의 `overfitting`과 큰 관련이 있기 때문 
 
 ## General Issues of Classification Models
 1. Model Overfitting 
