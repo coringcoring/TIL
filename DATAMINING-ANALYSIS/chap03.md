@@ -24,7 +24,7 @@
 * 예측한 label과 실제 label을 비교함으로써 classifier(=model)을 평가 가능 
 * data set을 `training set`과 `test set`으로 분할해야함. 
     * training data: 모델을 만드는데 사용 
-    * test data: 안 본 데이터를 통해 모델 실전 성능을 측정 -> `**good generalization performance**` 
+    * test data: 안 본 데이터를 통해 모델 실전 성능을 측정 -> `**good geralization performance**` 
         * 모델은 보지 않은 데이터에 대해서도 정확하게 class label들을 예측해내야함 
         * training set로 평가하는 것은 **generalization performance**의 좋은 방법이 아님 
 
