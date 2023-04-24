@@ -65,22 +65,22 @@
 ### k-Nearest Neighbor Classifiers
 * ppt 참고 
 * k-NN classifier의 특징
-    1. instance-based learning : 모델을 따로 생성하지 X. 적절한 proximity measure가 필요됨(instance들 사이의 유사도를 구하기 위해서)
-    2. 비용이 많이 든다 
-        * 이유: 각각의 데이터의 유사도를 다 측정해주어야하기 때문에 오래걸림
-    3. local information에 근거하여 예측값을 찾아냄 
+    1. `instance-based learning` : 모델을 따로 생성하지 X. 적절한 proximity measure가 필요됨(instance들 사이의 유사도를 구하기 위해서)
+    2. `비용`이 많이 든다 
+        * 이유: 각각의 데이터의 `유사도`를 다 측정해주어야하기 때문에 오래걸림
+    3. `local information에 근거`하여 예측값을 찾아냄 
         * 모델을 안만들고 주변 데이터들만을 이용함
         * 전체 데이터에 맞는 global model을 만드는 decision tree와 다르다
-        * 따라서 k-NN classifier들은 noise에 취약함 
+        * 따라서 k-NN classifier들은 `noise에 취약함` 
     4. 임의의 모양의 decision boundary들을 만듦
-        * decision tree에서 rectilinear decision의 boundary보다 더 유연함 -> overfitting에 취약함 
+        * decision tree에서 rectilinear decision의 boundary보다 더 유연함 -> `overfitting에 취약함` 
         * k값을 늘리는 것은 유연성을 잃는 것 
-    5. missing value를 training set, test set에서 다룰 수 없음 
-        * 이유: 근접성(거리) 계산은 모든 attribute가 존재해야만 일반적으로 가능하기 때문 
-    6. irrelevant attribute는 proximity measure를 왜곡할 수 있음 
+    5. **`missing value를 training set, test set에서 다룰 수 없음`** 
+        * 이유: 근접성(거리) 계산은 `모든 attribute`가 존재해야만 일반적으로 가능하기 때문 
+    6. **`irrelevant attribute는 proximity measure를 왜곡할 수 있음`** 
         * 특히 irrelevant attribute의 수가 많을 때 왜곡 많이 함 
-        * irrelevant, rebundant attribute들은 k-NN classifier의 수행 능력에 영향을 미침 
-    7. 적절한 proximity measure와 전처리가 이루어지지 않으면 잘못된 prediction을 만들어낼 수 있음 
+        * `irrelevant, rebundant attribute`들은 k-NN classifier의 수행 능력에 영향을 미침 
+    7. `적절한 proximity measure`와 `전처리`가 이루어지지 않으면 잘못된 prediction을 만들어낼 수 있음 
         * 정규화(normalization) 없이 proximity를 측정할 때 가중치에 큰 영향을 받을 수 있음 -> 이러한 가중치의 영향을 줄이는 작업이 필요함. (k-NN은 이걸 자동으로 할 수 없음)
 ---
 
@@ -106,7 +106,7 @@
 
 ### Naive Bayes Classifier의 특징 
 1. probabilistic classfication model: 확률 모델이지만 그 숫자를 믿으면 안됨. (실제 값이 아니기 때문)
-2. 생성 classification model: 생성형 모델이다 
+2. 생성(generative) classification model: 생성형 모델이다 
 3. 독립이라는 가정을 통해 쉽게 계산 가능 
     * 독립이라는 가정을 하여 따로따로 구했을 때 장점
         * 차원이 높아지면 차원의 저주가 발생할 수 있는데, 따로따로 계산하면 차원이 높아져도 큰 문제가 발생하지 않음-> 고차원에서 문제 발생x
@@ -126,16 +126,16 @@
 * naive Bayes는 무리한 가정(독립이라는 가정)을 했었음 -> assumption이 너무 과도한 경향이 있었음 => naive Bayes보다 유연한 모델! 
 * DAG(Directed Acyclic Graph)로 표현됨 
 * Bayesian Netwokrs의 특징들 
-    1. attirbute들과 class들 사이의 확률적인 관계를 강력하게 잘 나타내준다 
+    1. *attirbute들과 class들 사이의 확률적인 관계*를 강력하게 잘 나타내준다 
         * varaible 사이의 의존관계의 복잡한 형태도 잘 나타냄
-    2. 조건부적으로 독립에 대한 가정(naive Bayes에서는 가정했던)을 하지 않음 => corrleated 또는 rebundant한 attribute들을 다룰 수 있음 
-    3. naive Bayes classifier처럼 training data에서 noise와 irrelevant한 attribute를 잘 다룰 수 잇음 
-        * training+testing 할때 missing value들 또한 잘 다룰 수 있음 
-    4. Bayesian network의 topology(structure)를 알아내는 것은 어려움 
+    2. 조건부적으로 독립에 대한 가정(naive Bayes에서는 가정했던)을 하지 않음 => *corrleated 또는 rebundant한 attribute*들을 다룰 수 있음 
+    3. naive Bayes classifier처럼 training data에서 *noise와 irrelevant한 attribute*를 잘 다룰 수 잇음 
+        * training+testing 할때 *missing value*들 또한 잘 다룰 수 있음 
+    4. Bayesian network의 *topology(structure)*를 알아내는 것은 어려움 
         * 전문적인 지식 (도메인 지식)이 필요됨 
         * 일단 topology가 만들어지면, probabilistic table를 바로 얻어낼 수 있음
-    5. naive Bayes classifier에 비해 overfitting에 취약함 
-        * 각각의 probability table을 채우기 위해 많은 training data가 필요함. -> data가 작으면 naive Bayes에 비해 overfitting이 일어날 가능성이 높음. 각 probability table의 값이 달라질 수 있기 때문
+    5. **naive Bayes classifier에 비해 `overfitting에 취약함`** 
+        * 각각의 probability table을 채우기 위해 많은 training data가 필요함. -> `data가 작으면` naive Bayes에 비해 overfitting이 일어날 가능성이 높음. 각 `probability table`의 값이 달라질 수 있기 때문
 ---
 ## Logistic Regression 
 * logistic regression의 특징들 

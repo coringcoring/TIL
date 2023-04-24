@@ -47,7 +47,7 @@
 * Multi-layer Neural Network의 장점 
     * `mutliple`한 hidden layer들을 가지고 있으므로 `많은`, `복잡한` `hyperplane`들을 만들어낼 수 있음 
         * output node는 단순히 hidden node들의 결과들을 결합함으로써 decision boundary를 산출해낼 수 있음 
-        * 퍼셉트론이나 logistic regression의 경우 hidden layer가 존재하지 않아 오직 **하나**의 hyperplane만을 만들어낼 수 있음 (그러나, XOR problem을 해결할 수 없음)
+        * 퍼셉트론이나 logistic regression의 경우 hidden layer가 존재하지 않아 오직 **하나**의 hyperplane만을 만들어낼 수 있음 (XOR problem을 해결할 수 없음)
 
 ## Hidden Layers in ANN
 * classification에 유용한 **`잠재적인 feature들`**을 학습하는 것이라 봐도 됨 
@@ -71,5 +71,22 @@
 * **`cost(loss) function`** 정의 필요됨 
     * 모든 instance들을 각각 error들의 합 => `error들의 총량` 
     * J(w,b)를 `최소화`하는 w와 b를 찾아야함 
-        * **미분이 어려움** -> `gradient descen`t 사용 -> 그러나 이것도 locally optimal한 solution임 -> 여전히 `hidden layer`에서 계산이 아주 어려움 (이유: w는 직접적으로 y추정값에 영향을 주지 않지만, 복잡하게 얽힌 영향들이 연속적인 layer들의 activation value를 가지고 있기 때문)
+        * **미분이 어려움** -> `gradient descen`t 사용 -> 그러나 이것도 locally optimal한 solution임 -> 여전히 `hidden layer`에서 계산이 아주 어려움 (이유: *w는 직접적으로 y추정값에 영향을 주지 않지만, 복잡하게 얽힌 영향들이 연속적인 layer들의 activation value를 가지고 있기 때문*)
         * `Backpropagation` 필요! 
+
+## ANN의 특징 
+1. Multi-layer neural networks는 어떤 함수든 표현이 가능하다 (`universal approximators`)
+    * 어떤 복잡한 decision boundary들도 만들 수 있음 
+    * 그러나 `overfitting에 취약함` 
+2. ANN은 feature들을 계층구조로 자연스럽게 만들어준다 
+    * `low level feature`에서 `high level feature`들로.. 
+3. ANN은 쉽게 학습 가능한 lower-level feature들의 조합들로 복잡한 high-level feature들을 나타낼 수 있다 
+    * 더 많은 `hidden layer`와 `neuron`들을 추가함으로써 더 powerful해질 수 있다 
+4. `irrelevant attribute`를 다룰 수 있다. 
+    * 그러한 attribute에 0 weight를 사용 
+    * `rebundant`도 비슷한 weight를 줌으로써 해결 가능 
+5. gradient descent로 얻은 것은 globally optimal하다고 보기 어려움 
+    * `local minima 문제`에 빠질 수도 있음 
+6. ANN training 하는 것은 시간이 `많이 걸림` 
+    * `hidden node`의 수가 아주 많을 때 
+    * `병렬 처리 기술`이 필요된다(GPU)
