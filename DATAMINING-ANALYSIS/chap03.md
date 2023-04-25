@@ -97,7 +97,7 @@
     * impure한 노드들은 `트리의 깊이`를 깊어지게 하고, 큰 트리들은 `model overfitting`을 유발할 가능성이 높음  
 
 ### impurity measures for a single node 
-1. **`엔트로피`**: 값들의 `information`과 `uncertainty`의 평균
+1. **`엔트로피`**: 값들의 `information` 또는 `uncertainty`의 평균
     * `발생확률`이 클수록 `정보량` 감소 
 2. **`지니 계수 (Gini Index)`**: 값들 사이의 `inequality` 정도 
     * 모든 값들이 똑같으면 `minimized`(`perfect equality`)
@@ -187,7 +187,7 @@
 * 모델 복잡도를 측정하는 법? 
     * **`parameter의 개수`** = 모델의 복잡도 (많을수록 복잡도 증가, 유연성이 증가)
         * **decision tree**: **node**의 개수 (=**attribute test condition**의 개수)
-        * **linear aggression**: **coefficient**의 개수 
+        * **linear reggression**: **coefficient**의 개수 
         * **neural network**: **가중치**의 개수 (**뉴런**, **layer**의 개수)
     * **parameter**가 너무 많은데 **training data**가 너무 **작다**면.. -> 임의의 데이터가 정답으로 간주될 수도 있음 (다른거 묘사를 못하게됨, **overfitting**) (just by random chance)
 ### 2. Model Selection
@@ -227,11 +227,11 @@
         1. D를 D.train, D.test로 나눔 
         2. D.train으로부터 모델을 선택하고 train
         3. D.test에 대한 일반적인 성능을 측정 
-    * D.train과 D.test의 비율 
-        * 통상적으로 D.train:D.test=**3:1**이면 적당 
-    * **`random subsampling`** (or **`repeated holdout method`**)
-        * hold out을 여러번 해서 성능을 측정 
-        * error rate의 **분포**를 얻어낼 수 있음 -> **generalization performance**에 대한 **variance**를 이해 가능 
+        * D.train과 D.test의 비율 
+            * 통상적으로 D.train:D.test=**3:1**이면 적당 
+        * **`random subsampling`** (or **`repeated holdout method`**)
+            * hold out을 여러번 해서 성능을 측정 
+            * error rate의 **분포**를 얻어낼 수 있음 -> **generalization performance**에 대한 **variance**를 이해 가능 
     * **`cross-validation`**
         * 모든 데이터에 대해서 training, test를 한번씩 수행 가능 
         * 모든 데이터는 반드시 **한번의 test**에 참여하게 되어있음 

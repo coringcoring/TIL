@@ -105,20 +105,20 @@
 2. 특정한 확률분포의 형태로 가정한다 
 
 ### Naive Bayes Classifier의 특징 
-1. probabilistic classfication model: 확률 모델이지만 그 숫자를 믿으면 안됨. (실제 값이 아니기 때문)
-2. 생성(generative) classification model: 생성형 모델이다 
+1. `probabilistic classfication model`: 확률 모델이지만 그 숫자를 믿으면 안됨. (실제 값이 아니기 때문)
+2. `생성(generative) classification model`: 생성형 모델이다 
 3. 독립이라는 가정을 통해 쉽게 계산 가능 
     * 독립이라는 가정을 하여 따로따로 구했을 때 장점
         * 차원이 높아지면 차원의 저주가 발생할 수 있는데, 따로따로 계산하면 차원이 높아져도 큰 문제가 발생하지 않음-> 고차원에서 문제 발생x
         * 쉽게 계산 가능
-4. 이상한 noise 값에 대해서도 강건함 
+4. 이상한 `noise 값에 대해서도 강건함` 
     * noise에 큰 타격을 받지 않음. 이상한 한건이 있다해도 큰 영향을 주지 않는다 
-5. missing value를 다룰 수 있다. 
+5. `missing value를 다룰 수 있다.` 
     * training set-> P(xi|y) 계산하면서 그냥 무시함 
     * test set ->  non-missing attribute value들만 사용한다 (=그냥 제거하고 계산하면 됨)
-6. irrelevant attribute에 강건하다 
+6. `irrelevant attribute에 강건하다` 
     * irrelevant attribute는 모든 클래스에 각각 균등하게 분포하고 이는 성능에 큰 영향을 주지 않음 
-7. data가 추가되면 몽땅 다시 만들어야 하는 다른 모델(decision tree등) 과 달리 data가 들어오는 족족 모델 업데이트가 가능함 
+7. data가 추가되면 몽땅 다시 만들어야 하는 다른 모델(decision tree등) 과 달리 `data가 들어오는 족족 모델 업데이트가 가능함` 
 
 ---
 
