@@ -64,3 +64,26 @@
 * bagging은 base classifier들의 variance를 줄여줌으로써 generalization error 를 개선시킴 
     * base classifier가 높은 variance라면: bagging은 training data에서 랜덤한 변동들을 만들어낼 수도 있지만, 다른 애들이 이를 잡아주므로 error를 줄일 수 있다
     * base classifier가 높은 bias라면: bagging은 base classifier들의 성능을 개선시킬 수 없다. -> 모델의 훈련 데이터가 오히려 줄어드는 효과 
+
+## boosting
+* 앞의 결과들을 보고 weight를 adaptively하게 변경시킨다. 
+    * 장점: classify하기 어려운 example에게 더 집중할 수 있음
+    * 단점: 각각의 모델이 독립적이지 않음 -> 병렬적으로 설정할 수 없음 -> 시간이 오래 걸린다 
+* weight는 sampling distribution을 만들어내고, 가장 많이 biased된 example들에게 더 높은 weight를 주게 됨. 
+* 기본 과정 
+    1. training example들에게 모두 똑같은 weight (1/n)을 할당
+        * weight의 합은 1이 되도록 
+    2. sampling distribution에 따라 sample을 그림 
+    3. sample로부터 각각 classifier을 만들고 원본 데이터에 있는 모든 example들을 classify하는데 사용한다 
+    4. training example들의 weight를 update한다 
+        * 잘못 classified -> weight 증가
+        * 맞게 classified -> weight 감소 
+    * 가급적 weight가 높은 애들은 틀리지 않으려고 노력함 
+    * classify하기 어려운 example들에 집중함 
+### AdaBoost
+* boosting algorithms
+    1. 각각의 round에서 training example들의 weight가 어떻게 update되는지
+    2. 각각의 classifier들의 예측 결과들이 어떻게 결합되는지에 따라 
+        알고리즘이 달라짐 
+* adaboost는 Adpative Boosting이다
+* 나머지 내용 pdf 참고 
