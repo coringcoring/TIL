@@ -86,7 +86,9 @@
     2. 각각의 classifier들의 예측 결과들이 어떻게 결합되는지에 따라 
         알고리즘이 달라짐 
 * adaboost는 Adpative Boosting이다
-* 나머지 내용 pdf 참고 
+* 나머지 내용 pdf 참고
+* classifier가 잘못 만들어져서 error rate가 0.5보다 크게 되면 -> 모든 training data에 대한 rate를 **초기화시켜야함** (다시 하자!) -> weight를 다 1/n로 초기화 
+-> 그래야 importance는 0보다 크다고 가정이 가능  
 ### boositng의 특징 
 * ensemble의 training error는 지수적으로 감소함 -> 알고리즘의 fast convergence를 이끔 
 * 잘못 분류된 (분류되기 어려운) example에 집중함으로써 bias가 높더라도 잘 돌아감(학습이 잘됨)-> variance를 낮추는 효과 
@@ -109,6 +111,7 @@
     2. bootstrap sample Di를 만든다 
         * randomly하게 replacement를 사용하여 n개의 instance들을 sampling
     3. Di를 decision tree Ti를 학습하기 위해 사용함 
+        * *splitting할 때마다 p개의 attribute들을 random하게 뽑아서 splitting함*
         * Ti의 모든 internal node에서 randomly하게 p개의 attribute set을 고름
         * information gain이 가장 높은 attribute subset을 고름 
         * **`이 절차를 모든 leaf node가 pure해질 떄까지 반복함`**

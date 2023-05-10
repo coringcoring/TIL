@@ -32,3 +32,21 @@
     3. 모델 학습하기
     4. 평가
     5. 예측 
+* 머신러닝에는 항상 훈련 데이터와 테스트 데이터가 있어야 한다 
+* 모델 선택 
+* 평가: 테스트 데이터 사용
+    * 일반적인 훈련 데이터와 테스트 데이터의 비율은 80:20 또는 70:30 
+* 머신러닝의 성능 평가 : 혼동 행렬 
+    * TP
+    * FN
+    * FP
+    * TN 
+    * 정확도(Accuracy) = (TP+TN)/(TP+TN+FP+FN)
+    * True Postiive rate = TP/(TP+FN)
+    * False negative rate = FN/(TP+FN)
+    * True negative rate(=Sensitivity) = TN/(FP+TN)
+    * False Positive rate= FP/(FP+TN)
+    * Precision = TP/(TP+FP)
+    * Recall = TP/(TP+FN)
+    * F-measure= 2 * Precision * Recall / (Precision+Recall)
+        * harmonic mean(조화 평균): 주어진 수들의 역수의 산술 평균의 역수 => 평균 변화율을 구할 때 자주 사용 
