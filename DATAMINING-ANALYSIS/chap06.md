@@ -100,3 +100,27 @@
 ### Apriori Principle for Sequential Data
 * Apriori principle을 그대로 쓰되, 딱 1가지만 바꾸면 됨 -> Apriori-like 알고리즘 
     * 후보 k-sequences들을 frequent한 (k-1)-sequence들로부터 만들어냄 (ppt 참고)
+* 과정 
+    1. F1을 찾음 (frequent한 1-subsequences)
+    2. 반복적으로 다음 과정을 수행 k=2,3,..
+        1. frequent한 (k-1)-sequences Fk-1로부터 candidate k-sequences Ck를 생성
+        2. infrequent한 (k-1)-subsequences를 가진 Ck를 prune 
+        3. data set에 대한 추가적인 pass와 Ck에서 남아있는 candidate들의 support를 count하여 Fk를 determine (candidate를 뽑고 나서 다시 disk를 읽어야하는 단점 존재)
+        4. Fk가 없으면 terminate
+#### candidate generation
+* frequent한 (k-1)-sequence들로부터 candidate k-sequence들을 생성 가능 
+* Fk-1 x Fk-1 전략과 비슷하나 차이점 
+    1. (k-1)-sequence 자체로 merge하여 k-sequence를 만들어낼 수 있음 
+    2. transaction 안에서만 알파벳 순서로 정렬해야함 (lexicographical order)
+#### sequence merging procedure 
+* ppt 참고할 것 
+#### analysis of the merging procedure
+* sequence merging procedure은 complete하다 
+    * 모든 frequent한 k-sequence들은 후보로 들어감 
+* sequence merging procedure은 non-rebundant하다 
+    * 중복된 애는 나오지 않는다 
+    * 이유: sequence merging proceduredms s1과 s2를 merging을 통해서만 s를 만들어낼 수 있기 때문. 
+#### candidate pruning
+* 적어도 한 개 이상의 (k-1)-sequence가 infrequent하면 candidate k-sequence를 prune 
+#### support counting 
+* ppt 참고 
