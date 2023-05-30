@@ -1,7 +1,7 @@
 # CHAP 07
 
 ## Cluster Analysis(Clustering)
-* 데이터를 meaningful하고 useful한 group들로(cluster들) 나누는 것 
+* 데이터를 유사한것들끼리(ppt참고) group들로(cluster들) 나누는 것 
 * cluster의 2가지 목적
     1. 이해(understanding): 데이터의 natural한 구조를 이해하기 위해서
         * goal: 자동적으로 `potential`한 class들(cluster들)을 찾는 것 -> 공통의 특징들을 공유하는 object들의 개념적으로 의미있는 그룹들을 찾는 것 
@@ -55,3 +55,33 @@
 5. fuzzy clustering: 모든 object들이 모든 cluster에 membership weight와 함께 속함
     * 0~1 사이의 값 (1이면 absolutely belongs)
     * 첫번째 cluster에 속할 확률, 두번째 cluster에 속할 확률 .. 
+6. complete clustering: 모든 점을 억지로 cluster에 넣음 (outlier가 있어도 억지로 cluster에 넣음) -> k means의 단점: outlier에 매우 약한 알고리즘 
+7. partial clustering: 모든 점들을 cluster에 넣지 않음 (이유: 몇몇 점들은 잘 만들어진 group에 안들어갈 수 있기 때문 -> outlier, noise, unintersting background)
+## cluster의 다른 type들 
+1. prototype-based: 각각의 cluster는 centroid와 같은 각각의 prototype에게 가까운 object들로 이루어져있음  
+2. density-based: 점들의 dense region으로 cluster가 이루어져 있음. 
+3. graph-based: node는 점들이고 link는 점들 사이의 관계를 나타냄. 그래프에서 connected component로 이루어진 집합인 cluster 
+
+## K-means
+* 가장 오래되었고 가장 널리 쓰인 clustering 알고리즘
+* k-means 알고리즘 기초 
+    1. k개의 점들을 initial centroid로 고름 (k는 사용자가 정의하는 파라미터임)
+    2. 반복 
+        * k 개의 cluster들을 centroid에 가까운 점들로 할당하여 만들어냄
+        * 각각의 cluster의 centroid를 다시 계산함 
+    3. centroid가 거의 변화하지 않을때까지 반복함 (너무 대용량의 data인 경우 몇개는 빼고 멈춰도됨)
+* K-means는 웬만하면 다 수렴함 
+    * 이유: 대부분의 수렴은 초기 단계에서 발생함. (약한 조건이 종종 사용됨)(대용량의 data인 경우 1%만 변해도 stop 시키는 경우가 있음)
+    * k-means는 local minimum에 빠질 수 있음 -> 다른 initial centroid들이 다른 결과들을 초래할 수 있음 
+* 점들을 가장 가까운 centroid에 할당하기 위해 proximity measure를 정해야함
+* centroid
+    * 다양하게 정의될 수 있음
+    * clustering의 목적과 proximity measure에 달려있음
+    * ex. cluster 안에 있는 점들의 평균 
+        * mean이 아니라 median이어도 됨
+        * centroid와 가까운 실제 점으로 정의해도 됨 
+* objective function
+    * clustering의 목적을 나타냄
+    * clustering의 질을 측정함 
+    * ex. 가장 가까운 centroid에서 각각의 점들의 거리를 제곱한것을 최소로 하는 clustering이 좋다 
+* 예시 ppt 참고 
