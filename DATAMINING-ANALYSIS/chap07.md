@@ -85,3 +85,73 @@
     * clustering의 질을 측정함 
     * ex. 가장 가까운 centroid에서 각각의 점들의 거리를 제곱한것을 최소로 하는 clustering이 좋다 
 * 예시 ppt 참고 
+### 초기 centroid들 고르기 
+* k-means에서 중요한 과정 
+* 초기점을 눈으로 정하기 어려움 -> 해결방법: 여러번 돌려서 SSE를 최소화하는 cluster을 찾아야함 
+1. 해겳방법1: initial centroid를 랜덤하게 정한다 
+    * 단점
+        * cluster가 좋지 않게 나올 수도 있음 (좋아 보여도 suboptimal한 clustering이 나타날 수 있음)
+        * 여러번 돌린 다음에 SSE를 측정하면 시간이 오래 걸린다. (K의 크기, 데이터의 크기가 크면 잘 안돌아감)
+        * 아무리 random하게 많이 돌리더라도 local minimum에 빠질 수 있음 
+2. 해결방법2: pre-clustering: 일부sample들을 먼저 뽑고 그거 가지고 clustering하기
+    * 단점
+        * sample이 작을때만 잘 돌아감 (수백~수천개 정도)
+        * k가 sample size와 비교해서 작을때만 (sample들 수가 적으니까 k도 막 늘릴 수 없음)    
+2. 해결방법3: 가장 먼 점을 선택하기 
+    * 첫번째 점을 랜덤하게 뽑고
+    * 그 처음점으로부터 가장 먼 점 뽑아서 각각의 cluster의 initial centroid로 잡기 (centroid가 몰려잇는 것을 빙지!) => 잘 퍼져있는 initial centroid들을 얻을 수 있음 
+    * 단점 
+        * outlier를 선택할 수도 있음 
+        * 가장 먼 점을 찾아서 선택하는데 드는 비용이 있음 
+3. 해결방법4: K-means++
+### K-means++
+* 초기화만 K-means와 다름 
+1. random하게 첫번째 점을 뽑는다
+2. 2~k까지 반복
+    * 가장 가까운 centroid로부터의 거리를 각각 계산: d(x)
+    * 각 점의 `d(x)^2`에 따라 확률적으로 할당
+    * 가중치가 있는 확률에 따라(거리가 멀수록 뽑힐 확률 높음) 새로운 centroid를 뽑음
+3. 나머지 부분은 k-means와 동일 
+* 예시 ppt 참고 
+### k-means의 단점(한계)
+* natural한 cluster들(사람이 한눈에 보고 알수 있는 cluster인데 컴퓨터는 바보같이 못찾아냄)을 찾아내기 어려워할 수도 있음 (아래 3가지 경우에)
+    1. cluster 사이즈가 다를때 -> 큰 cluster가 깨져버림 (무조건 절대적인 거리만 따지기 때문에 다양한 크기의 cluster들을 구분하지 못함)
+    2. cluster들이 다른 밀도(density) 가지고 있을때 -> 밀도가 작은 cluster가 깨져버림
+    3. cluster들이 non-globular(꼬불꼬불) 모양일때 -> 두 개의 cluster가 섞여버림 
+    * 이유: K-means에서 사용하는 objective function(SSE)가 우리가 찾고자하는 cluster의 종류와 mismatch(맞지 않음) 
+        * K-means의 objective function은 globular하고 같은 사이즈와 밀도의 cluster들에 대해서만 잘 clustering함 
+* 장점 (강점)
+    * 단순하고 다양한 종류의 data type에 대해 적용 가능
+    * **`효율적임`**(속도가 빠르다. 여러번 돌려도 큰 부담이 되지 않는다!) -> 교수님이 기억하라고 하심 
+* 약점 (단점)
+    * non-globular한, 다른 사이즈와 밀도인 cluster들은 다룰 수 없음
+    * outlier에 취약함(complete clustering이기 때문에 모든 점을 cluster에 포함시켜야하므로 outlier도 cluster에 포함될 수 있음)
+    * center(centroid)라는 중심점이라는 개념이 존재할 수 있는 data에서만 돌아갈 수 있음 (ex. 텍스트 데이터는 중심점이 존재하기 어렵잖니) 
+
+## Agglomerative Hierachical Clustering
+* hierachical clustering을 하는 2가지 방법
+    1. agglomertaive(응집형): 가까운 거리를 찾는게 나누는 것보다 나음 -> 많이 쓴다 
+        * 작은거에서 큰걸로..
+    2. divisive(나누는형?): 느림 -> 잘 안씀 
+        * 큰거 하나에서 작은걸로 나누는 거임 (나누는 거 찾는게 더 시간이 오래걸리는건 당연하겠죠? 뭘로 어떻게 나누지..해야하니까)
+* 기본 알고리즘 
+    1. proximity matrix를 계산한다 (필요하다면) (cluster 사이의 거리를 어떻게 정의하느냐에 따라 결과가 완전 달라질 수 있음)
+    2. 아래 과정을 하나의 cluster만이 남을떄까지 반복함
+        1. 가장 가까운 2개의 cluster를 합침(merge)
+        2. 새로운 cluster를 반영하기 위해 proximity matrix를 업데이트 -> matrix 계산 때문에 오버헤드가 커짐 (거리^2로 계산하니까 느려!)
+* dendrogram : hierachical clustering은 tree처럼 생긴 diagram인 dendrogram으로 그래프적으로 표현 가능 
+    * y축은 뭉친 cluster간의 거리 : 위로 갈수록 더 먼 cluster들끼리 뭉쳐있음 
+### cluster 사이의 거리 정의
+* hierachical clustering에서의 핵심 : `linkage function` (서로 연결하는 함수)
+1. MIN(single link or single linkage): 다른 cluster에서 가장 가까운 두개의 점 사이의 거리, cluster가 쉽게 커짐 
+2. MAX(complete link or complete linkage): 다른 cluster 안에서 가장 먼 두개의 점 사이의 거리, cluster가 잘 안커지려고 함 
+3. Group Average(average link or average linkage): MIN과 MAX의 중간정도 (먼거리를 반영하기 때문에 MAX와 더 비슷하다) 특성을 가진 방법. 무난하지만 시간이 오래 걸림(모든 점들 사이의 거리를 측정해야함)-> 다른 cluster 사이의 모든 점들의 평균 
+4. Ward's method(Ward's link or Ward's linkage): 2개를 뭉쳤을 때 SSE가 얼마나 증가하는지를 봄 -> SSE가 적게 늘어나는 것이 가장 최적일 것이다 
+    * 하지만 수학적으로 불안한 알고리즘임 (취하는 행동은 응집형인데 하고자하는 목표는 k-means인점..)
+#### MIN(Single Link)
+* 장점: 원형이 아닌(옆으로 길쭉한..non-elliptical)한 모형에 좋음
+* 단점: noise와 outlier에 취약함 (noise를 먹으면서 뭉쳐질 수도 있음)
+#### MAX(Complete link)
+* 원형으로 뭉쳐지는 경향이 있음
+* 장점: outlier와는 거리가 멀어져서 잘 안붙으려고함 -> outlier 영향 적게 받음 
+* 단점: 큰 cluster가 깨질 수도 있음, 거리가 멀어져서 잘 안붙을 수도 있음 
