@@ -18,7 +18,7 @@
     * 각각은 item들 
     * 각각의 transaction ti는 I의 item들의 subset을 포함한다 -> I의 부분집합은 ti다
     * Itemset: 아이템들의 집합 
-        * k-itemset: k개의 item들로 이루어진 itemset
+        * `k-itemset`: k개의 item들로 이루어진 itemset
     * X가 ti의 원소라면, transaction ti는 itemset X를 포함한다. 
 * Support Count
     * 우리가 가진 data에서 몇 번 등장하나? 
@@ -32,12 +32,12 @@
         * minimum support를 사람이 정해줘야 한다
     2. c(X->Y): X->Y assocation rule의 confidence -> X를 산 사람 중에 몇프로가 Y까지 샀나? -> minmum confidence를 정해줘야함 
 * Support와 Confidence를 사용하는 이유 
-    1. Support: 일정 수치 이상이 나와야 의미있는 rule임 
-        * 이유 : 비율이 낮다면 이것은 우연에 의해 발생한 것이 되기 때문 
-    2. confidence: 상당수의 많은 비율이 y를 사야 해당 rule이 의미있는 것 
+    1. Support: *일정 수치 이상이 나와야 의미있는 rule임* 
+        * 이유 : 비율이 낮다면 이것은 `우연`에 의해 발생한 것이 되기 때문 
+    2. confidence: *상당수의 많은 비율이 y를 사야 해당 rule이 의미있는 것* 
         * 이유 : 이것은 rule에 의해 만들어진 추론의 reliability를 측정하기 때문 
     * X -> Y는 X가 있기 때문에 Y를 산 것이 아님 
-        * 원인을 나타내는 것이 아님 (감히 유추할 수 없다)
+        * **`원인을 나타내는 것이 아님`** (감히 유추할 수 없다)
         * 그저 같이 나타나는 것 뿐임  (strong co-occurence)
 * Brute-Force 접근 : support랑 confidence 모든 가능한 rule에 대하여 계산함
     * 단점: 계산비용이 감당할 수 없을정도로 큼 -> 지수적으로 많은 가능한 rule들이 존재하기 때문 
@@ -46,29 +46,29 @@
         2. 거기서 minconf를 넘기는 itemset을 찾음 
         * X->Y는 XUY가 frequent하지 않으면 frequent하지 않다 => frequent한 itemset들만 고려하자 
 * Improved approach : 가장 흔한 association rule mining algorithms 전략 -> 문제를 두가지 주요한 subtask들로 분해한다 
-    1. frequent itemset generation (단점: 비용이 비쌈)
+    1. **`frequent itemset generation (단점: 비용이 비쌈)`**
         * minsup을 넘기는 frequent한 itemset들을 찾는다 
         * 쉽지 않음 
-        * k개의 item들을 가지는 data set은 최대 2^k -1 개의 possible한 itemset들을 만들어냄 
+        * k개의 item들을 가지는 data set은 최대 `2^k -1` 개의 possible한 itemset들을 만들어냄 
         * k는 실제 적용할때 클 수가 있어서, itemset들의 search space가 지수적으로 커질 수 있음 (possible한 itemset들이 기하급수적으로 커질 수 있음)
         * brute-force 접근
             * 모든 candidate itemset들에 대해 support count를 셈 
                 * 각각의 transaction에서 모든 candidate itemset을 체크해봄 
                 * 만약 canddiate가 transaction에 포함된다면, support count 증가 
                 * 그러나 비쌀 수 있음 
-                    * 이유: O(NMw)
+                    * 이유: `O(NMw)`
                         * M은 2^k에 비례함 -> 엄청나게 큰 숫자, transaction들에 대해 M번씩 비교해야함 
                         * w는 transaction에서 가질 수 있는 최대의 item 갯수  
-    2. rule generation (덜 비쌈)
+    2. **`rule generation (덜 비쌈)`**
         * frequent itemset들 중 높은 confidence rule을 가지는 것들을 모두 뽑아냄
 
 ## Apriori Algorithm
-* frequent itemset generation에서 candidate itemset을 줄이는데 사용함 
+* frequent itemset generation에서 `candidate itemset`을 줄이는데 사용함 
 * minsup 이상 등장하는 frequent itemset이라면, 모든 그것의 subset들 또한 frequent 해야한다. 
-    * 뒤집으면, 만약에 {a,b}가 frequent하지 않다면 a,b를 포함하는 어떤 애들도 frequent할 수 없음 
+    * 뒤집으면, *만약에 {a,b}가 frequent하지 않다면 a,b를 포함하는 어떤 애들도 frequent할 수 없음* 
 * => 일단 itemset이 frequent하지 않다면, 그것의 superset들을 즉시 prune(버린다)
 * 자세한 내용 ppt 참고 
-* 효과: k-itemset의 candidate를 오직 frequent한 (k-1) itemsets을 가지고 만들어낼 수 있다. (ppt 참고) => candidate itemsets의 수를 68%정도 감소시킬 수 있다.
+* 효과: k-itemset의 candidate를 오직 frequent한 (k-1) itemsets을 가지고 만들어낼 수 있다. (ppt 참고) => *candidate itemsets의 수를 68%정도 감소시킬 수 있다.*
 ### 의사코드 
 * F1: 하나짜리를 다 count하여 frequent를 찾아내기 
 * k= 2, 3, ...
@@ -97,6 +97,12 @@
     2. number of items: item의 수가 많을 수록 candidate itemset이 커지므로 비용 증가
     3. number of transactions: data set에서 repeated pass들을 만드는 비용이 커지므로 비용 증가
     4. average transcation width: transcation 안에 item수가 증가할수록 candidate itemset이 증가하므로 비용 증가 
+## maximal frequent itemsets
+* transaction dataset이 엄청 커서 frequent itemset이 많이 만들어졌을 때 이것들을 대표하는 compact한 frequent itemset을 뽑자 -> maximal frequent itemsets
+* complete함 
+* itemset이 엄청 커서 frequent itemset이 지수적으로 엄청 많을 때 valuable한 representation이 됨 
+* 그러나, maximal frequent itemset은 그들의 subset에 대한 support 정보를 가지고 있지 않음 
+
 ## Evaluation of Association Rules
 * association analysis 알고리즘들은 많은 양의 association rule들을 생성해낼 수 있음 
     * 실제 commercial 데이터베이스들의 크기와 차원은 클 수 있어서, 엄청나게 많은 pattern들을 만들어낼 수 있음 -> 근데 대부분의 것들은 not be interesting! 

@@ -26,7 +26,7 @@
     * goal
         * 같은 그룹 (cluster) 안에 있는 object들은 서로 비슷함(similar)
         * 다른 그룹에 있는 object들은 서로 다름(different)
-    * 좋은 clustering
+    * 좋은 clustering 조건
         * 그룹 안에서 similarity를 극대화하는 것 
         * 그룹 사이에서 difference를 극대화하는 것
 * clustering의 어려움 
@@ -59,16 +59,16 @@
 7. partial clustering: 모든 점들을 cluster에 넣지 않음 (이유: 몇몇 점들은 잘 만들어진 group에 안들어갈 수 있기 때문 -> outlier, noise, unintersting background)
 ## cluster의 다른 type들 
 1. prototype-based: 각각의 cluster는 centroid와 같은 각각의 prototype에게 가까운 object들로 이루어져있음  
-2. density-based: 점들의 dense region으로 cluster가 이루어져 있음. 
-3. graph-based: node는 점들이고 link는 점들 사이의 관계를 나타냄. 그래프에서 connected component로 이루어진 집합인 cluster 
+2. density-based: 점들의 dense region으로 cluster가 이루어져 있음. -> k-means 쓰면 이상하게 되니까 스면 안됨 
+3. graph-based: node는 점들이고 link는 점들 사이의 관계를 나타냄. 그래프에서 connected component로 이루어진 집합인 cluster -> k-means 못 씀. 다른 graph-based 알고리즘 써야함 
 
 ## K-means
 * 가장 오래되었고 가장 널리 쓰인 clustering 알고리즘
 * k-means 알고리즘 기초 
     1. k개의 점들을 initial centroid로 고름 (k는 사용자가 정의하는 파라미터임)
     2. 반복 
-        * k 개의 cluster들을 centroid에 가까운 점들로 할당하여 만들어냄
-        * 각각의 cluster의 centroid를 다시 계산함 
+        * k 개의 cluster들을 centroid에 가까운 점들로 할당하여 만들어냄 -> ci는 고정되어있고 x를 objective function이 최소화되도록 조절하는 것
+        * 각각의 cluster의 centroid를 다시 계산함 -> x는 고정되어있고 objective function을 최소화하도록 ci를 조정 
     3. centroid가 거의 변화하지 않을때까지 반복함 (너무 대용량의 data인 경우 몇개는 빼고 멈춰도됨)
 * K-means는 웬만하면 다 수렴함 
     * 이유: 대부분의 수렴은 초기 단계에서 발생함. (약한 조건이 종종 사용됨)(대용량의 data인 경우 1%만 변해도 stop 시키는 경우가 있음)
@@ -85,6 +85,7 @@
     * clustering의 질을 측정함 
     * ex. 가장 가까운 centroid에서 각각의 점들의 거리를 제곱한것을 최소로 하는 clustering이 좋다 
 * 예시 ppt 참고 
+* ci랑 x는 동시에 조절할 수 없음(이유: search space가 너무 넓어서 오래 걸림) 따로따로 조절-> local minimum에 빠지는 것임 
 ### 초기 centroid들 고르기 
 * k-means에서 중요한 과정 
 * 초기점을 눈으로 정하기 어려움 -> 해결방법: 여러번 돌려서 SSE를 최소화하는 cluster을 찾아야함 
@@ -155,3 +156,16 @@
 * 원형으로 뭉쳐지는 경향이 있음
 * 장점: outlier와는 거리가 멀어져서 잘 안붙으려고함 -> outlier 영향 적게 받음 
 * 단점: 큰 cluster가 깨질 수도 있음, 거리가 멀어져서 잘 안붙을 수도 있음 
+
+
+
+---
+## 시험 대비 핵심 정리 
+* cluster analysis(clustering)의 목적 2가지 
+* classification과 clustering의 차이 
+* clustering의 종류 7가지
+* cluster의 종류 3가지 
+
+* k-means 장점/단점 
+* proximity measure? objective function? 
+* 초기 centroid 정하기 4가지 방법 그리고 단점 

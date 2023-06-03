@@ -18,3 +18,20 @@
     * 경사하강법(Gradient Descent Method)
         * 학습률(learning rate): 한 번에 매개변수를 변경하는 비율 
         * ppt 참고 
+
+## 핵심 코드 정리  
+```python
+# 경사 하강법
+for i in range(epochs): 
+    y_pred = w*X + b  			# 선형 회귀 예측값
+    dw = (2/n) * sum(X * (y_pred-y)) 	# 넘파이 배열간의 산술 계산은 요소별로 적용
+    db = (2/n) * sum(y_pred-y)  # sum()은 모든 요소들의 합을 계산하는 내장 함수
+    w = w - lrate * dw  		# 기울기 수정
+    b = b - lrate * db  		# 절편 수정
+``` 
+
+---
+## 시험 대비 핵심 정리
+* 손실함수 공식 
+* 손실함수 최소화 방법 2가지 와 공식 
+* 경사하강법 + 코드 구현한 부분 
