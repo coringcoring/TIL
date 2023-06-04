@@ -24,8 +24,8 @@
     * 해결방법: 똑같은 attribute에 대해서 한 개보다 더 많은 item을 포함하는 candidate itemset이 생성되지 않도록 함 
 
 ## Handling Continuous Attributes
-* continuous attribute의 인접한 값들을 그룹화하여 유한한 개수의 interval들로 만듦 -> discretization 기술들 사용 가능 
-    * equal interval width, equal frequency or clustering
+* continuous attribute의 인접한 값들을 그룹화하여 유한한 개수의 interval들로 만듦 -> `discretization` 기술들 사용 가능 
+    * `equal interval width`, equal frequency or clustering
 * interval의 개수 
     * 구간을 얼마나 잘게 나누느냐가 어려움 
         * 너무 잘게 자르면 support가 작아져서 rule이 발생하기 어려움 
@@ -47,24 +47,24 @@
     * leaf node가 평소 우리가 접하는 data의 형태 : minconf는 만족 가능, minsup은 만족 어려움
     * 너무 위의 rule들은 minconf를 만족하지 못할 수도 있음, minsup은 가능 
 ### concept hierachies를 사용하면 장점 
-1. 낮은 level에 있는 items들은 frequent한 itemset에서 나타날 수 있는 충분한 support를 만족 못 할 수도 있음 -> support가 충분하지 않아 rule을 찾아내기 어려움 (그렇다고 minsup을 낳추면 쓸데없는 rule들이 나올 수 있음)
+1. *낮은 level에 있는 items들은 frequent한 itemset에서 나타날 수 있는 충분한 support를 만족 못 할 수도 있음* -> support가 충분하지 않아 rule을 찾아내기 어려움 (그렇다고 minsup을 낮추면 쓸데없는 rule들이 나올 수 있음)
     * concept hieraachy를 사용하지 않으면 different level들에 있는 흥미로운 pattern들을 놓칠 수 있는 가능성이 존재 
-2. 낮은 level에서 발견된 rule들은 overly specific한 경향이 있다. 너무나 detail한 rule을 찾을 수도 있음. 그리고 higher level들에서의 rule들만큼 흥미롭지 않을 수 있음 
+2. *낮은 level에서 발견된 rule들은 overly specific한 경향이 있다.* 너무나 detail한 rule을 찾을 수도 있음. 그리고 higher level들에서의 rule들만큼 흥미롭지 않을 수 있음 
     * concept hierachy를 사용하면 하나의 single rule로 요약될 수 있음 
-3. top level의 item들만 고려하는 것은 좋지 않다. 
-    * 이유: 도움이 안되는 rule일 수 있음, 과대한 일반화(overgeneralizes)임 
+3. *top level의 item들만 고려하는 것은 좋지 않다.* 
+    * 이유: 도움이 안되는 rule일 수 있음, `과대한 일반화(overgeneralizes)임` 
 ### extending standard association analysis
 * standard association analysis를 확장 가능 
 * ppt 참고 
 * 이러한 접근은 다른 level들의 rule을 찾아낼 수 있음 
 ### extension의 한계 
-1. 높은 level에 있는 item들은 높은 support count들을 lower level보다 많이 가진다. 
+1. *높은 level에 있는 item들은 높은 support count들을 lower level보다 많이 가진다. -*
     * 너무 높은 minsup이라면: 위의 item들이 발견될 것임
     * 너무 낮은 minsup이라면: 너무 자잘한 rule들이 발견될 것임
-2. concept hierachy는 association analysis algorithms의 계산시간을 늘림 
+2. *concept hierachy는 association analysis algorithms의 계산시간을 늘림* 
     * 이유: 많은 수의 item들과 넓은 transaction들 때문에 
     * candidate pattern들과 frequent pattern들은 지수적으로 넓은 transaction과 함께 증가할 것이다 
-3. reubundant rule을 생산해낼 수 있다 
+3. *reubundant rule을 생산해낼 수 있다* 
 
 ## Sequential Patterns
 * Market basket 데이터는 temporal 정보를 포함함 (언제 item이 구입되었는지)
@@ -124,3 +124,18 @@
 * 적어도 한 개 이상의 (k-1)-sequence가 infrequent하면 candidate k-sequence를 prune 
 #### support counting 
 * ppt 참고 
+
+---
+## 시험 대비 핵심 정리 
+* categorical 은 어떻게 하나? 그리고 문제점 3가지 
+* continuous는 어떻게 하나? 그리고 문제점 3가지 
+* concept hierachy 사용할때의 장점 , 그리고 extension했을 때 발생하는 문제 3가지 
+* concept hierachy는 위 level로 갈수록? 아래 level로 갈수록?
+* 너무 위의 level들만 고려하면 뭐지? 
+* 너무 아래 level들만 고려하면 뭐지? 
+
+* sequence가 뭐지? 구성 요소들? (element, event..)
+* sequentail 패턴 발견에서 발생하는 문제, 그 이유 3가지 
+* candidate 만드는거 Fk-1xFk-1과 같은데 차이점 2가지 
+* candidate 만들면서 합칠때 특정 2가지 
+* candidate pruning 하는 과정 이해하기 

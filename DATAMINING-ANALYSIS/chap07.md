@@ -156,9 +156,51 @@
 * 원형으로 뭉쳐지는 경향이 있음
 * 장점: outlier와는 거리가 멀어져서 잘 안붙으려고함 -> outlier 영향 적게 받음 
 * 단점: 큰 cluster가 깨질 수도 있음, 거리가 멀어져서 잘 안붙을 수도 있음 
+#### Group Average(Average Link)
+* 모든 점들의 pair의 거리를 계산해서 그것을 평균한 걸 거리라 봄
+* MAX와 가장 비슷함
+#### Ward's Method
+* K-means의 objective function(SSE)랑 같은거 사용함
+* noise에 대해서 가장 효과적인 방법
+* SSE가 가장 적게 증가하는 경우에 합침 
+* centroid라는 개념이 존재해야만 가능한 방법 
 
+* centroid로 거리를 측정하지 않는 이유? inversion 발생 가능 (클러스터끼리 멀어질수록 거리가 멀어져야하는데 오히려 가까워지는 현상 발생)
+### Hierachical clustering 장단점
+* 장점
+    * 초기 initial point에 대한 고민 안해도 됨
+    * outlier을 쉽게 제거 가능함 (partial clustering이기 때문에 모든 점을 cluster에 할당하지 않아도 됨. 95%정도 할당되면 5%(outlier)는 버림)
+* 단점
+    * 시간이 오래 걸림 (proximity matrix를 계속 update해줘야 함)
+    * objective function이 없어서 수학적으로 불명확하고 애매함 
 
-
+## DBSCAN
+* 밀도를 사용하는 알고리즘
+* 밀도가 뭉쳐진 곳이 Cluster
+* 밀도 정의: 사용자가 주는 거리(eps) 반경 내에 점이 몇개가 있는지가 밀도 
+    * 문제점: density가 사용자가 주는 eps에 따라 달라질 수 있음 
+        * eps가 너무 작으면: 밀도가 너무 작아짐 
+        * eps가 너무 크면: 밀도가 너무 비슷하게 커져버림 
+* 점들을 3가지로 분류함
+    1. core points
+    2. border points
+    3. noise points 
+* 알고리즘 
+    1. 모든 점들을 core, border, noise로 라벨링함
+    2. noise points를 제거함
+    3. core points들끼리 연결하여 cluster로 만들고 border끼리랑도 합침 
+* 문제 : Eps랑 MinPts를 얼마를 줄것인가? -> k-dist 사용 
+    * 같은 클러스터 안에 있는 점들을 k-dist가 작을 것이고 , 아니라면 반대일것임
+    * k는 숫자가 달라도 다 비슷비슷한 결과 
+        * k가 너무 작으면 noise랑 outlier까지 cluster에 포함시킬 수 있음
+        * k가 너무 크면 작은 클러스터도 noise로 간주되어버릴 수도 있음 
+* 장점
+    * outlier 제거 가능 (partial clustering)
+    * k-means가 못잡는 arbitrary한 모양의 클러스터도 잡아낼 수 있음 
+* 단점
+    * 밀도가 다른 클러스터들이 존재한다면 처리하기 어려움
+    * 고차원의 데이터는 다루기 어려움 (고차원이 될수록 거리가 멀어지기 때문)
+    * 반경 안에 점들이 몇개 있는지 세어야하므로 비용이 듬 
 ---
 ## 시험 대비 핵심 정리 
 * cluster analysis(clustering)의 목적 2가지 
@@ -169,3 +211,13 @@
 * k-means 장점/단점 
 * proximity measure? objective function? 
 * 초기 centroid 정하기 4가지 방법 그리고 단점 
+
+* hierachical clustering 스타일 2가지
+* hierachical clustering 과정 이해 
+* hierachical clustering의 핵심 -> 이를 해결하는 4가지 방법 (장/단점) 
+* hierachical clustering 장/단점 
+
+* dbscan 에서 밀도 정의+ 문제
+* dbscan 에서 eps랑 minpts 정하기 
+* dbscan의 3가지 점 분류 
+* dbscan 장/단점 

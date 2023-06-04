@@ -76,37 +76,37 @@
         * 조건1: Complete: frequent한 애들이 조합으로 만들어져야함 
         * 조건2: Non-rebundant: 동일한 결과가 나타나지 않도록 해야함 
         * 조건3: Effective: 정말 가능성 있는 후보들만 나오게 해야함 
-        1. Fk-1 x F1 방법 : 동일한 아이가 여러 조합으로 만들어질 수 있음 -> 이미 만들었나를 체크해야하는 비용이 듬 
+        1. `Fk-1 x F1 방법` : 동일한 아이가 여러 조합으로 만들어질 수 있음 -> 이미 만들었나를 체크해야하는 비용이 듬 
             * Non-rebundant
-            * complete: 모든 frequent한 조합은 하나도 안빠지고 나온다 
+            * **complete**: 모든 frequent한 조합은 하나도 안빠지고 나온다 
                 * 이유: 모든 frequent한 k-itemset은 frequent한 (k-1)-itemset와 frequent한 1-itemset으로 구성되어 있기 때문 
                 * 단점: 많은 unnecessary한 후보들을 만들어낼 수 있음
-            * duplicate candidates(중복되는 후보들)이 나옴 
-                * 해결방법: 알파벳 순으로 item들을 정렬 후 결합 => 모든 candidate k-itemset은 정확히 한 번만 생성될 수 있게됨 
+            * *duplicate candidates(중복되는 후보들)이 나옴* 
+                * 해결방법: `알파벳 순`으로 item들을 정렬 후 결합 => 모든 candidate k-itemset은 정확히 한 번만 생성될 수 있게됨 
             * 문제: {a,b,c,d}가 만들어지면 {a,b,d}, {a,c,d}.. 등이 frequent한지 체크해봐야하는 문제가 발생함 -> 그래서 Fk-1 x Fk-1 방법 등장
-        2. Fk-1 x Fk-1 방법 
+        2. `Fk-1 x Fk-1 방법` 
             * frequent한 (k-1)-itemset들을 first k-2 item들이 알파벳 순으로 정렬된 것들이 동일할때만 merge하는 것 
-                * complete 
-                * duplicate candidate 방지 가능 : 어떤 애가 나올 수 있는 방법은 딱 1가지이기 때문 
-                * Fk-1 x F1 방법보다 효과적으로 candidate의 수를 줄일 수 있다. -> 영양가 있는 애들만 모아서 만들기 때문 
+                * **complete** 
+                * **duplicate candidate 방지 가능** : 어떤 애가 나올 수 있는 방법은 딱 1가지이기 때문 
+                * *Fk-1 x F1 방법보다 효과적으로 candidate의 수를 줄일 수 있다.* -> 영양가 있는 애들만 모아서 만들기 때문 
     2. 가능성 없는 Ck를 prune함 
     3. Fk를 Ck로부터 결정 
 * 더 이상 frequent한 애가 나오지 않을떄까지 k를 증가시키면서 반복함 
 ### computational cost를 증가시키는 요소
-    1. support threshold: minsup이 작을 수록 비용 증가
-    2. number of items: item의 수가 많을 수록 candidate itemset이 커지므로 비용 증가
-    3. number of transactions: data set에서 repeated pass들을 만드는 비용이 커지므로 비용 증가
-    4. average transcation width: transcation 안에 item수가 증가할수록 candidate itemset이 증가하므로 비용 증가 
+1. support threshold: *minsup이 작을 수록 비용 증가*
+2. *number of items*: item의 수가 많을 수록 candidate itemset이 커지므로 비용 증가
+3. *number of transactions*: data set에서 repeated pass들을 만드는 비용이 커지므로 비용 증가
+4. *average transcation width*: transcation 안에 item수가 증가할수록 candidate itemset이 증가하므로 비용 증가 
 ## maximal frequent itemsets
 * transaction dataset이 엄청 커서 frequent itemset이 많이 만들어졌을 때 이것들을 대표하는 compact한 frequent itemset을 뽑자 -> maximal frequent itemsets
 * complete함 
 * itemset이 엄청 커서 frequent itemset이 지수적으로 엄청 많을 때 valuable한 representation이 됨 
-* 그러나, maximal frequent itemset은 그들의 subset에 대한 support 정보를 가지고 있지 않음 
+* 그러나, *maximal frequent itemset은 그들의 subset에 대한 support 정보를 가지고 있지 않음* 
 
 ## Evaluation of Association Rules
 * association analysis 알고리즘들은 많은 양의 association rule들을 생성해낼 수 있음 
     * 실제 commercial 데이터베이스들의 크기와 차원은 클 수 있어서, 엄청나게 많은 pattern들을 만들어낼 수 있음 -> 근데 대부분의 것들은 not be interesting! 
-* => 따라서 rule들의 quality를 평가하는 것이 중요함 -> 객관적인 흥미도 측정 방법을 정의 => interest factor = lift 
+* => 따라서 rule들의 quality를 평가하는 것이 중요함 -> 객관적인 흥미도 측정 방법을 정의 => `interest factor = lift` 
 ### interest factor(lift)
 * confidence가 높은 모든 rule들이 흥미로운 것은 아님 
     * 규칙 X -> Y는 X가 Y에 영향을 미치는지 알고자 함 
