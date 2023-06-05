@@ -80,3 +80,77 @@ GeneticAlgorithm(population,FitnessFunc){
     * 결과 세대 안의 모든 프로그램을 평가
 3. 기준이 만족될 때까지 반복 
 
+## 핵심 코드 정리 
+```python
+    def cal_fitness(self):		    # 적합도 계산 
+        self.fitness = 0;
+        value = 0
+        for i in range(SIZE):
+            value += self.genes[i]*pow(2, SIZE-1-i)
+        self.fitness = value**2
+        return self.fitness
+```
+```python
+# 선택 연산
+def select(pop):
+    max_value  = sum([c.cal_fitness() for c in population])
+    pick = random.uniform(0, max_value)     # 0과 max_value 사이의 난수 발생
+    current = 0
+    print("Fitness 총합 = ", max_value, ",Pick = ", pick)
+    
+    # 룰렛휠에서 어떤 조각에 속하는지를 알아내는 루프
+    for c in pop:
+        current += c.cal_fitness()
+        if current > pick:
+            return c
+```
+```python
+# 교차 연산
+def crossover(pop):
+    father = select(pop)
+    mother = select(pop)
+    index = random.randint(1, SIZE - 1)     # 1~4의 인덱스 선택, 슬라이싱에 사용
+    child1 = father.genes[:index] + mother.genes[index:] 
+    child2 = mother.genes[:index] + father.genes[index:] 
+    return (child1, child2)
+    
+# 돌연변이 연산
+def mutate(c):
+    for i in range(SIZE):
+        if random.random() < MUTATION_RATE:
+            if random.random() < 0.5:
+                c.genes[i] = 1
+            else:
+                c.genes[i] = 0
+```
+```python
+while population[0].cal_fitness() < 31*31:
+    new_pop = []
+
+    # 선택과 교차 연산
+    for _ in range(POPULATION_SIZE//2):     # // 몫 연산자
+        c1, c2 = crossover(population)
+        new_pop.append(Chromosome(c1))
+        new_pop.append(Chromosome(c2))
+
+    # 자식 세대가 부모 세대를 대체함, 깊은 복사 수행 
+    population = new_pop.copy();
+    print()
+    print("** 교차연산 후")
+    print_p(population)
+    
+    # 돌연변이 연산
+    for c in population: 
+        mutate(c)
+    print("** 돌연변이 후")
+    print_p(population)
+    
+    # 출력을 위한 정렬
+    print("+++++++++++++++++++++++++++++++++++++++")
+    population.sort(key=lambda x: x.cal_fitness(), reverse=True)
+    print("세대 번호:", count)
+    print_p(population)
+    count += 1
+    if count > 20: 
+        break
+```
