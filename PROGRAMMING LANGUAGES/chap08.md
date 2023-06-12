@@ -79,7 +79,7 @@
 * pdf 참고 
 * 타입 검사 구현 : 함수 정의
     ```java
-    public static Type Check(Function f,TypeEnv e){
+    public static Type Check(Function f,TypeEnv te){
         te.push(f.id,new Prototype(f.type,f.params)); //recursion일 경우 함수 타입 추가 
         for (Decl d:f.params)
             te.push(d.id,d.type); 
@@ -99,7 +99,7 @@
 * 타입 검사 구현: 함수 호출
     ```java
     static Type Check(Call c,TypeEnv te){
-        if (te.contains(c.fid)){
+        if (!te.contains(c.fid)){
             error(c,"undefined function: "+c.fid);
             return c.type
         }
