@@ -82,7 +82,7 @@
 * elements(transactions)의 ordered list 
 * events(items)
 * ppt 참고 
-* k-sequence: k개의 event들(item들)을 포함하는 하나의 sequence (transcation이 아님!)
+* `k-sequence`: k개의 event들(item들)을 포함하는 하나의 sequence (*transcation이 아님!*)
 ### subsequences
 * ppt 참고.. 
 ### sequential pattern discovery 
@@ -91,9 +91,9 @@
 ### challenges in sequential pattern discovery
 * 모든 가능한 sequence들은 지수적으로 커서 enumerate하기 어렵다 
     * 가능한 sequence들이 많은 이유
-        1. 똑같은게 2번 나올 수 있으므로
-        2. itemset은 순서가 중요하지 않았으나, 여기서는 순서가 다르면 다른 sequence임 -> 순서가 중요함 
-        3. 조합이 무한대 가능 (ex. in이 무한대 등장해도 됨)
+        1. *똑같은게 2번 나올 수 있으므로*
+        2. itemset은 순서가 중요하지 않았으나, 여기서는 *순서가 다르면 다른 sequence임* -> 순서가 중요함 
+        3. *조합이 무한대 가능* (ex. in이 무한대 등장해도 됨)
             * itemset에서 가능한 itemset 수는 2^n - 1 이었음 
             * 그러나 여기서는 possible한 sequence들이 무한대 
         => candidate가 엄청 많아짐 
