@@ -64,7 +64,7 @@
         * d가 너무 작으면: normal이 밀도가 작게 나올 수 있음 
     * anomaly score= 1/밀도 (역수 취함)
 3. `Relative Density-based anomaly score`
-    * 지역적으로 밀도가 다를때 발생하는 문제 해결 
+    * *지역적으로 밀도가 다를때* 발생하는 문제 해결 
     * 주변의 밀도와 나 자신의 밀도의 비 
     * 상대 밀도 = 주변 밀도들의 평균 / 내 자신의 밀도 
     * 상대 밀도가 크면: 주변 밀도들에 비해서 내 것의 밀도가 작다 -> anomaly
@@ -84,9 +84,9 @@
 2. k-means에서 cluster 안에서 centroid간의 거리가 너무 멀면 anomaly(outlier)
 * 계층적 클러스터링에서는 98% 정도 merge가 끝나고 나머지 2%가 아직도 merge가 안되어 있으면 이 2%가 outlier
 * anomaly score = K-means에서 cluster 내의 centroid와 점 사이의 거리 
-* 문제1: 밀도가 지역마다 다를때 절대거리 말고 상대거리(주변애들과의 거리를 보고 그 거리에 대해 내 거리가 어떤지를 봐야함)
+* 문제1: *밀도가 지역마다 다를때 절대거리 말고 상대거리(주변애들과의 거리를 보고 그 거리에 대해 내 거리가 어떤지를 봐야함)*
     * 상대 거리= centroid와의 거리를 다 측정하고 median을 취함 -> 이 median과 나머지의 비율이 relative distance가 됨 
-* 문제2: k-means의 경우 우리의 의도와 다르게 outlier 때문에 cluster가 왜곡될 수 있음 -> 해결:` K-means--` [clustering을 진행하면서 centroid와 멀리 떨어져있는 outlier들을 제거하면서 계속 clustering함]
+* 문제2: *k-means의 경우 우리의 의도와 다르게 outlier 때문에 cluster가 왜곡될 수 있음* -> 해결:` K-means--` [clustering을 진행하면서 centroid와 멀리 떨어져있는 outlier들을 제거하면서 계속 clustering함]
 * 문제3: k -> k가 어떤지에 따라 outlier인지/아닌지의 결과가 달라질 수 있음 
 * 장점
     * clustering은 unsupervised라서 알아서 잘 돌아가서 결과를 보여줌
@@ -94,7 +94,7 @@
     * k-means를 사용하는 경우 속도가 빠름 
 * 단점
     * *cluster의 개수(k)를 모름 -> 얘에 따라서 결과가 많이 달라질 수 있음*
-    ** outlier의 존재가 clustering을 많이 왜곡*시킬 수 있음 
+    * `outlier의 존재`가 clustering을 많이 왜곡시킬 수 있음 
 
 ## 4. Reconstruction-based approaches
 * 원본 데이터를 압축(정보손실 있음) -> 다시 압축을 풀었을때 원본데이터와 얼마나 달라져있는가(reconstruction error가 크면 anomaly)
