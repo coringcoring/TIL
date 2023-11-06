@@ -33,8 +33,42 @@
 * best case: 바로 mid에 x가 있을 때
 * worst case: x가 배열에 있는 모든 원소보다 클 때 
 
-## 합병 정렬
+## 합병 정렬 (Merge Sort)
+* 쌍방합병(two-way merging): 같은 순으로 정렬되어 있는 두 개의 배열을 정렬된 하나의 배열로 만드는 과정 -> 합병을 반복적으로 적용하여 배열 정렬 가능 
+* 과정
+    1. 분할: 배열을 n/2개의 요소로 구성된 2개의 부분 배열로 분할 
+    2. 정복: 각 부분 배열을 정렬
+    3. 통합: 정렬된 각 부분 배열을 하나의 정렬된 배열로 합병 
+    ```java
+    void mergeSort(int n, keytype S[]){
+        if(n>1){
+            int h=⌊n/2⌋, m=n-h;
+            keytype U[1..h], V[1..m];
+            copy S[1..h] to U[1..h];
+            copy S[h+1..n] to V[1..m];
+            mergeSort(h,U);
+            mergeSort(m,V);
+            merge(h,m,U,V,S); 
+        }
+    }
 
+    void merge(int h, int m, keytype U[],keytype V[], keytype S[]){
+        index i=1,j=1,k=1;
+        while (i<=h && j<=m){
+            if(U[i]<V[j]){
+                S[k]=U[i];
+                i++;
+            }
+            else{
+                S[k]=V[j];
+                j++;
+            }
+            k++;
+        }
+        if(i>h) copy V[j..m] to S[k..h+m];
+        else copy U[i..h] to S[k..h+m]; 
+    }
+    ```
 ## 빠른 정렬
 
 ## 최소-최대 찾기 
