@@ -64,3 +64,25 @@
         * 트랜잭션이 커밋했는지 rollback했는지 기록 
             * 커밋한 트랜잭션이면 REDO
             * 아니면 UNDO
+### Write-Ahead Logging (WAL)
+* data를 write하기 전에 log 먼저 write되어야함 
+    * db(disk)에 저장되기 전에 log가 먼저 저장되도록 해야함 
+    * buffer에 기록된 log가 db로 들어가기 -> buffer에 기록된 변경된 테이블 데이터가 db로 들어가기 
+    * 만약 transaction fail이 일어났을때 log가 기록되어있지 않다면 rollback할때 operation을 수행했다는 log가 기록되어있지 않으므로 rollback이 안됨 
+    * transaction processing은 일(transaction)은 atomicity 보장하려면 log먼저 기록 하고 실제 disk의 data를 바꿔줘야한다!! 
+* commit하기 전에 해당 transaction이 만들어 놓은 모든 log record는 다 write해야한다 
+    * durability를 보장하기 위함 
+    * commit하면 얘가 했던 모든 record가 쓰여져 있기 때문에 read만 하면 됨 -> 복구 가능 
+* IBM의 ARIES (강의는 이 기반으로 설명된다)가 있음 
+### Big Picture
+* `log`를 통해 어떤 일을 해왔는지를 확인 가능 
+    * checkpoint도 확인 가능 
+    * t2가 commit했고, t4가 시작되엇고 등등의 정보를 log를 통해 알 수 있음
+* t3, t5는 undone임 -> t3, t5가 한 operation은 `UNDO`해야함 (for **`atomicity`**!)
+* t2, t4는 commit되었기 때문에 `REDO`해야함 (for **`durability`**!)
+* T1은 checkpoint 이전에 끝났기(commit됨) 때문에 해줄 필요가 없음 
+* 복구 과정: Analysis -> UNDO -> REDO
+    * *자연스럽게* analysis한 다음에 UNDO(<-)를 하고 REDO(->)를 하도록 알고리즘이 짜여져있음 
+### checkpointing
+* checkpoint를 얼마나 주기적으로 할 것이냐는 어려운 일 (자동으로 안되고 관리자의 노하우로 해야함)
+* Recovery할 때 시스템의 부담을 줄이기 위해 checkpointing을 함 
