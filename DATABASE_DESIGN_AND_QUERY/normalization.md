@@ -40,4 +40,38 @@
     1. Reflexivity
     2. Augmentation
     3. Transitivity 
-    
+* additional rules
+    * Union
+    * Decomposition
+* example
+    * JP -> C가 성립하면 JP도 Key가 됨 (**transitivity** rule에 의해)
+    * SD -> P가 성립하면 SD`J`->`J`P도 성립 (**Augmentation** rule에 의해)
+    * SDJ -> JP, JP-> CSJDPQV 성립하면 SDJ->CSJDPQV 성립 (**Transitivity** rule에 의해)
+## Normal Form
+* 현실에서는 3NF 또는 BCNF를 가장 많이 씀 
+### BCNF(Boyce-Codd Normal Form)
+* functional dependency(FD)로 유도한 f closure에서 모든 FD들(FDs)이 둘 중 하나를 만족해야함 : 모든 X->A in F closure
+    * A ㄷ X (trivial FD)
+    * X는 R에 대한 key를 포함해야함 (즉 X는 R의 슈퍼키)
+### 3NF
+* 모든 BCNF는 3NF가 아닐 수 있음. 
+* 모든 3NF는 BCNF
+* 3번째 조건이 추가 
+    * A가 어떤 키의 일부여야함 : A가 부분키(partial key)
+#### 다른 책에서 표현하는 3NF..(다른 정의)
+* transitivity: K->X, X->A => K->A 가 없어야한다 
+* BCNF가 아니면서 3NF여야함 (?)
+* A,B,C 가 있고 A,B는 키. C->B라는 FD가 있다면
+    * BCNF는 되지만
+    * 3NF는 안됨
+* A,B,C,D (AB는 키, C->AB)는 3NF
+    * C -> B 에서 B는 partial key 
+* A,B,C,D (AB는 키 , D->C)
+    * 3NF가 아님 (C가 Partial key가 아니기 때문)
+    * AB->C, AB->D가 되고 있음(키이기 때문)
+    * AB->C, AB->D, D->C : Transitivity가 존재하므로 3NF 아님 
+
+## Decomposition of a relation scheme
+* A,B,C (C->B)는 BCNF입장에서 BCNF가 아님 
+    * A,C(C는 남겨둬야함!!)랑 B,C로 decomposition해야함
+    * 3NF로 주장하는 사람들은 C->B를 정보의 중복으로 보지말자함 

@@ -1,15 +1,19 @@
 # Transaction
 
 ## Single user vs Multi user Systems
-* Interleaved processing
+* **Interleaved processing**
 * parallel processing
 
 ## Transactions
 * Usability(유용성): database에 concurrent 해야함 
-* logical unit
+* Performance: disk 접근 속도가 상대적으로 느리기 때문에, 다수의 사용자 프로그램이 동시적으로 작동할 수 있도록 cpu humming을 유지하는 것이 중요 
+* `transaction`: 사용자 프로그램의 DBMS의 추상화된 개념. 연속적으로 읽고, 쓰는 것을 포함하는 데이터베이스 처리의 logical unit
 
 ## Concurrency in a DBMS
+* Concurrency 는 DBMS에 의해서 수행됨 
+    * R, W 를 섞음
 * 각각의 transaction은 database를 consistent한 상태로 남겨둬야함 
+    * DBMS는 CREATE TABLE에 선언된 대로 ICs(Integrity Constraint)를 enforce할 것임 
     * 잘못 섞어서 processing하면 문제가 될 수 있음 
     * issue: effect of interleaving transactions, crashes 
 
