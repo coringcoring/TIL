@@ -344,7 +344,42 @@ bool promising(index i){
 ## chap 6
 
 ### 최적 일주 경로(The Traveling Salesperson Problem)(외판원 문제)
-
+```c
+void travel(int n,const number W[][],ordered-set& opttour, number& minlength){
+    priority_queue_of_node PQ;
+    node u,v;
+    intialize(PQ);
+    v.level=0;
+    v.path=[1];
+    minlength=10000;
+    v.bound=bound(v);
+    insert(PQ,v);
+    while(!empty(PQ)){
+        v=remove(PQ);
+        if(v.bound<minlength){
+            u.level=v.level+1; 
+            for(all i such that 2<=i<=n && i is not in v.path){
+                u.path=v.path;
+                put i at the end of u.path; 
+                if(u.level==n-2){//leaf node라면 minlength계산
+                    put index of only vertex not in u. path at the end of u.path;
+                    put 1 at the end of u.path; 
+                    if(length(u)<minlength){
+                        minlength=length(u);
+                        opttour=u.path; 
+                    }
+                }else{
+                    u.bound=bound(u);
+                    if(u.bound<minlength){
+                        insert(PQ,u); 
+                    }
+                }
+            }
+        }
+    }
+}
+```
+* 시간복잡도가 지수적이거나 그보다 더 못함 -> 근사 알고리즘(approximation algorithms)사용하여 최적해에 근접한 해답 찾아야함 
 
 ## chap 7
 ### 힙 정렬
