@@ -212,3 +212,97 @@ Nodetype Huffman(struct nodetype charSet[],int n){
 ```
     * 시간복잡도: 최적 머지 패턴과 동일 Θ(n^2) or Θ(n log n)
     * 우선순위큐(PQ)
+
+
+
+
+
+## chap 7
+### 힙 정렬
+```c
+void shiftdown(heap& H,index i){
+    index parent,largerchild;
+    keytype shiftkey; 
+    bool spotfound;
+    shiftkey=H.S[i];
+    parent=i; 
+    spotfound=false; 
+    while(2*parent<=H.heapsize && !spotfound){
+        if(2*parent<H.heapsize && H.S[2*parent]<H.S[2*parent+1])
+            largerchild=2*parent+1; 
+        else largerchild=2*parent; 
+        if(shiftkey<H.S[largerchild]){
+            H.S[parent]=H.S[largerchild];
+            parent=largerchild; 
+        }else{
+            spotfound=true; 
+        }
+    }
+    H.S[parent]=shiftkey; 
+}
+
+void makeheap(int n,heap& H){
+    index i;
+    H.heapsize=n; 
+    for(i=┗n/2┛;i>=1;i--){
+        shiftdown(H,i);
+    }
+}
+
+keytype root(heap& H){
+    keytype keyout; 
+    keyout=H.S[1];
+    H.S[1]=H.S[heapsize]; 
+    H.heapsize=H.heapsize-1;
+    shiftdown(H,1);
+    return keyout; 
+}
+
+void removekeys(int n,heap H,keytype S[]){
+    index i;
+    for(i=n;i>=1;i--){
+        S[i]=root(H); 
+    }
+};
+
+void heapSort(int n,heap& H, keytype S[]){
+    makeheap(n,H);
+    removekeys(n,H,S); 
+}
+```
+
+
+### RADIX 정렬 
+```C
+void radixsort(node_pointer& masterlist, int numdigits){ //오른쪽부터 하는 경우
+    index i;
+    for(i=1;i<=numdigits;i++){
+        distribute(masterlist,i);
+        coalesce(masterlist);
+    }
+}
+
+void distribute(node_pointer& masterlist,index i){
+    index j;
+    node_pointer p;
+    for(j=0;j<=9;j++)
+        list[j]=NULL;
+    p=masterlist;
+    while(p!=NULL){
+        j=p->key에서 오른쪽부터 i번째 숫자의 값; 
+        p를 list[j]의 끝에 링크;
+        p=p->link; 
+    }
+}
+
+void coalesce(node_pointer& masterlist){
+    index j;
+    masterlist=NULL;
+    for(j=0;j<=9;j++){
+        list[j]에 있는 마디들을 masterlist의 끝에 링크 
+    }
+}
+```
+    * 링크 연산 
+    * 모든 경우 시간복잡도 분석: T(n)=numdigits(n+10)∈ Θ(numdigits*n)
+    * 서로 다른 n개의 수가 있을 때 그것을 표현하는데 필요한 digit의 수는 lg n
