@@ -48,9 +48,9 @@ void prim(int n, number W[][], EdgeSet& F){
     }
 }
 ```
-    * 기본연산: 비교연산
-    * 입력크기: n
-    * T(n)=((n-1)+(n-1))*(n-1)= 2(n-1)(n-1)  ∈ Θ(n^2)
+* 기본연산: 비교연산
+* 입력크기: n
+* T(n)=((n-1)+(n-1))*(n-1)= 2(n-1)(n-1)  ∈ Θ(n^2)
 
 #### 분리(부분) 집합 (disjoint set) 자료구조 
 ```c
@@ -97,15 +97,15 @@ void kruskal(int n,int m,EdgeSet E, EdgeSet& F){
     }
 }
 ```
-    * 최악의 경우
-        * 기본연산: 비교
-        * 입력크기: 정점 수 n, 간선 수 m
-        * 정렬에 소요되는 비용: Θ(mlgm)
-        * while 루프: 최악의 경우 모든 간선 고려 (m번 반복) 
-            * 루프 전체 비용: Θ(mlgm)
-        * V[i]집합 초기화 비용: Θ(n)
-        * n<m이므로 Θ(mlgm) 
-        * n-1<=m<=n(n-1)/2 -> 최악의 경우 n(n-1)/2이므로 Θ(n^2lgn)
+* 최악의 경우
+    * 기본연산: 비교
+    * 입력크기: 정점 수 n, 간선 수 m
+    * 정렬에 소요되는 비용: Θ(mlgm)
+    * while 루프: 최악의 경우 모든 간선 고려 (m번 반복) 
+        * 루프 전체 비용: Θ(mlgm)
+    * V[i]집합 초기화 비용: Θ(n)
+    * n<m이므로 Θ(mlgm) 
+    * n-1<=m<=n(n-1)/2 -> 최악의 경우 n(n-1)/2이므로 Θ(n^2lgn)
 
 ### Dijkstra 단일출발점 최단경로 문제 
 시간복잡도: Θ(n^2)
@@ -141,7 +141,7 @@ void dijkstra(int n,const number W[][], EdgeSet& F){
     }
 }
 ```
-    * T(n)=2(n-1)(n-1) ∈ Θ(n^2)
+* T(n)=2(n-1)(n-1) ∈ Θ(n^2)
 
 ### 배낭 채우기 문제 
 6, 7장에서 다룸
@@ -160,9 +160,9 @@ void GreedyKnapsack(float M, int n, int p[], int w[], float& x[]){
     if (i<=n) x[i]=U/w[i]; //item이 남으면 나눠서 들어감 
 }
 ```
-    * p[1..n], w[1..n] 의 배열 정렬: Θ(n log n)
-    * GreedyKnapsack: Θ(n)
-    * T(n)= Θ(n log n)
+* p[1..n], w[1..n] 의 배열 정렬: Θ(n log n)
+* GreedyKnapsack: Θ(n)
+* T(n)= Θ(n log n)
 
 ### 최적 머지 패턴 알고리즘
 ```c
@@ -184,7 +184,7 @@ Type *Tree(int n){
     return (Least(list)); 
 }
 ```
-    * 시간복잡도: Θ(n^2) or Θ(n log n)
+* 시간복잡도: Θ(n^2) or Θ(n log n)
 
 ### 최적 이진 코드(허프만 코드)
 ```c
@@ -210,11 +210,140 @@ Nodetype Huffman(struct nodetype charSet[],int n){
     return remove(PQ); 
 }
 ```
-    * 시간복잡도: 최적 머지 패턴과 동일 Θ(n^2) or Θ(n log n)
-    * 우선순위큐(PQ)
+* 시간복잡도: 최적 머지 패턴과 동일 Θ(n^2) or Θ(n log n)
+* 우선순위큐(PQ)
+
+----
+
+## chap 5
+### N-Queens 문제
+브루트포스 알고리즘으로는 4x4일 경우 = 4x4x4x4=256가지
+순수한 깊이우선검색(DFS)검색 마디 개수= 1+1+4+ 4x4 + 4x4x4 + 1+ 3+ 3x4+ 3x4x4 + 1+ 1+ 3 =155 개 
+되추적(백트래킹)= 27개 
+```c
+bool promising(index i){
+    index k=1; 
+    bool p=true; 
+    while(k<i && p){
+        if(col[i]==col[k] || abs(col[i]-col[k])==i-k)
+            p=false;
+        k++;
+    }
+    return p; 
+}
+void queens(index i){
+    index j; //j는 각 행의 열을 표시 
+    if(promising(i)){
+        if(i==n)
+            print col[1] through col[n];
+        else{
+            for(j=1;j<=n;j++){
+                col[i+1]=j;
+                queens(i+1); 
+            }
+        }
+    }
+}
+```
+* N-Queens 문제의 모든 노드의 수= n^(n+1)-1 /n-1
+* 유망한 노드의 수 = 1+ n+ n(n-1)+n(n-1)(n-2)+...+n! 
+    * 대각선 점검하는 경우를 고려하지 않음 -> 유망한 마디 수가 더 작을지도 
+
+### 부분집합의 합 구하기 문제 (Sum-of-Subset 문제)
+```c
+void SumOfSubsets(index i,int weight,int total){
+    if(promising(i)){
+        if(weight==W) 결과출력;
+        else{
+            include[i+1]=true; 
+            SumOfSubsets(i+1,weight+w[i+1],total-w[i+1]);
+            include[i+1]=false; 
+            SumOfSubsets(i+1,weight,total-w[i+1]); 
+        }
+    }
+}
+
+bool promising(index i){
+    return (weight+total>=W) && (weight==W||weight+w[i+1]<=W); 
+}
+```
+* 상태공간트리에서 방문가능한 최대 노드 수 = 1+2+2^2+..+2^n=2^(n+1)-1
 
 
 
+### 그래프 색칠하기 Graph Coloring
+```c
+void m_coloring(index i){
+    int color;
+    if (promising(i)){
+        if (i==n)
+            print output; 
+        else{
+            for(color=1;color<=m;color++){
+                vcolor[i+1]=color;
+                m_coloring(i+1); 
+            }
+        }
+    }
+}
+
+bool promising(index i){
+    index j;
+    bool switch;
+    switch=true; 
+    j=1;
+    while(j<i && switch){
+        if (W[i][j]&& vcolor[i]==vcolor[j])
+            switch=false;
+        j++;
+    }
+    return switch; 
+}
+```
+* 상태공간트리 상의 마디 총수 = 1+ m+ m^2+ .. + m^n = (m^(n+1)-1)/(m-1)
+
+### 해밀토니안 순환경로 
+```c
+void hamiltonian(index i){
+    index j;
+    if promising(i)
+        if (i==n-1)
+            print output; 
+        else{
+            for(j=2;j<=n;j++){ //모든 정점들을 다음 정점으로 테스트 
+                vindex[i+1]=j;
+                hamiltonian(i+1);
+            }
+        }
+}
+
+bool promising(index i){
+    index j;
+    bool switch;
+    if (i==n-1 && !W[vindex[n-1]][vindex[0]])
+        switch=false; //첫번째 정점과 n-1번째 정점은 인접해야함 
+    else if (i>0 && !W[vindex[i-1]][vindex[i]])
+        switch=false; //i번째 정점은 i-1번째 정점과 인접해야함 
+    else{
+        swtich=true; 
+        j=1; 
+        while(j<i && switch){ //i번째 정점은 그 앞에 오는 i-1개의 정점들 중 하나가 될 수 없음 
+            if(vindex[i]==vindex[j])
+                switch=false;
+            j++; 
+        }
+    }
+    return switch; 
+}
+```
+* 상태 트리의 노드 개수만큼 호출 
+* 노드개수: 1+(n-1)+(n-1)^2+...+(n-1)^(n-1)=(n-1)^n - 1 / (n-2)
+
+----
+
+## chap 6
+
+### 최적 일주 경로(The Traveling Salesperson Problem)(외판원 문제)
 
 
 ## chap 7
@@ -303,6 +432,6 @@ void coalesce(node_pointer& masterlist){
     }
 }
 ```
-    * 링크 연산 
-    * 모든 경우 시간복잡도 분석: T(n)=numdigits(n+10)∈ Θ(numdigits*n)
-    * 서로 다른 n개의 수가 있을 때 그것을 표현하는데 필요한 digit의 수는 lg n
+* 링크 연산 
+* 모든 경우 시간복잡도 분석: T(n)=numdigits(n+10)∈ Θ(numdigits*n)
+* 서로 다른 n개의 수가 있을 때 그것을 표현하는데 필요한 digit의 수는 lg n
